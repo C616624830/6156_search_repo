@@ -22,15 +22,15 @@ def hello_world():
     return '<u>Hello World!</u>' 
 
 
-@app.route('/breeders', methods=['GET', 'POST', 'PUT', 'DELETE'])
-def breeders():
+@app.route('/breeders/<bid>/<name>/<organization>/<phone>/<email>/<address>/<website>/<rating>', methods=['GET', 'POST', 'PUT', 'DELETE'])
+def breeders(bid, name, organization, phone, email, address, website, rating):
     if request.method == 'GET':
         res = BreederResource.get_by_template(None)
         rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
         return rsp
     if request.method == 'POST':
-        mesg = "need implemented"
-        rsp = Response(mesg)
+        res = BreederResource.post_breeder(bid, name, organization, phone, email, address, website, rating)
+        rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
         return rsp
 
 @app.route('/breeders/rating', methods=['GET', 'POST', 'PUT', 'DELETE'])
@@ -41,20 +41,20 @@ def breede_rating():
         rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
         return rsp
 
-@app.route('/cats', methods=['GET', 'POST', 'PUT', 'DELETE'])
-def cats():
+@app.route('/cats/<cid>/<race>/<color>/<dob>/<father>/<mother>/<breeder>', methods=['GET', 'POST', 'PUT', 'DELETE'])
+def cats(cid, race, color, dob, father, mother, breeder):
     if request.method == 'GET':
         res = BreederResource.get_by_template(None)
         rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
         return rsp
     if request.method == 'POST':
-        mesg = "need implemented"
-        rsp = Response(mesg)
+        res = CatResource.post_cat(cid, race, color, dob, father, mother, breeder)
+        rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
         return rsp
 
-@app.route('/cats/breeder')
-def breeder_of_cat():
-    res = CatResource.get_breeder_id(None)
+@app.route('/cats/breeder/<cid>')
+def breeder_of_cat(cid):
+    res = CatResource.get_breeder_id(cid)
     rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
 
 

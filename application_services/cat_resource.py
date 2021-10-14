@@ -18,3 +18,10 @@ class CatResource(BaseApplicationResource):
         res = d_service.find_by_template("searchbase", "catInfo",
                                        template, None)
         return res
+
+    # add a new cat to database (all not null parameters are needed)
+    @classmethod
+    def post_cat(cls, catid, race, color, dob, fatherid, motherid, breederid):
+        res = d_service.add_cat("searchbase", "catInfo",
+                                        catid, race, color, dob, fatherid, motherid, breederid)
+        return res

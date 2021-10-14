@@ -40,6 +40,65 @@ def get_specifc_column(db_schema, table_name, column_name, targeted_row, value):
     return res
 
 
+def add_cat(db_schema, table_name, catid, race, color, dob, fatherid, motherid, breederid):
+
+    conn = _get_db_connection()
+    cur = conn.cursor()
+
+
+    if fatherid == "0" and motherid == "0":
+        sql = "INSERT INTO " + db_schema + "." + table_name + \
+              " (id, race, color, dob, breeder) VALUES(" + \
+              catid + ", " + "'" + race + "'" + ", " + "'" + color + "'" + ", " + "'" + dob + "'" + ", " + breederid + ")"
+
+    elif fatherid == "0" and motherid != "0":
+        sql = "INSERT INTO " + db_schema + "." + table_name + \
+              " (id, race, color, dob, mother, breeder) VALUES (" + \
+              catid + ", " + "'" + race + "'" + ", " + "'" + color + "'" + ", " + "'" + dob + "'" + ", " + motherid + ", " + breederid + ")"
+
+    elif fatherid != "0" and motherid == "0":
+        sql = "INSERT INTO " + db_schema + "." + table_name + \
+              " (id, race, color, dob, father, breeder) VALUES (" + \
+              catid + ", " + "'" + race + "'" + ", " + "'" + color + "'" + ", " + "'" + dob + "'" + ", " + fatherid +  ", " + breederid + ")"
+
+    else:
+        sql = "INSERT INTO " + db_schema + "." + table_name + \
+              " (id, race, color, dob, father, mother, breeder) VALUES (" + \
+              catid + ", " + "'" + race + "'" + ", " + "'" + color + "'" + ", " + "'" + dob + "'" + ", " + fatherid + ", " + motherid + ", " + breederid + ")"
+
+
+
+    print("SQL Statement = " + cur.mogrify(sql, None))
+
+    res = cur.execute(sql)
+    conn.commit()
+    res = cur.fetchall()
+
+    conn.close()
+
+    return res
+
+
+def add_breeder(db_schema, table_name, bid, name, organization, phone, email, address, website, rating):
+
+    conn = _get_db_connection()
+    cur = conn.cursor()
+
+
+    sql = "INSERT INTO " + db_schema + "." + table_name + \
+          " (id, name, organization, phone, email, address, website, rating) VALUES (" + \
+          bid + ", " + "'" + name + "'" + ", " + "'" + organization + "'" + ", " + "'" + phone + "'" + ", " + "'" + email + "'" + ", " + "'" + address + "'" + ", " + "'" + website + "'" + ", " + rating + ")"
+
+    print("SQL Statement = " + cur.mogrify(sql, None))
+
+    res = cur.execute(sql)
+    conn.commit()
+    res = cur.fetchall()
+
+    conn.close()
+
+    return res
+
 def get_by_prefix(db_schema, table_name, column_name, value_prefix):
 
     conn = _get_db_connection()

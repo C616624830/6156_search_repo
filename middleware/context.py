@@ -13,6 +13,11 @@ def get_db_info():
     db_host = os.environ.get("DBHOST", None)
     db_user = os.environ.get("DBUSER", None)
     db_password = os.environ.get("DBPASSWORD", None)
+    # db_host = "seachdb.coy0xnvkfahm.us-east-2.rds.amazonaws.com"
+    # db_user = "admin"
+    # db_password = "12345678"
+
+    print(db_host)
 
     if db_host is not None:
         db_info = {
@@ -21,12 +26,14 @@ def get_db_info():
             "password": db_password,
             "cursorclass": pymysql.cursors.DictCursor
         }
+
     else:
         db_info = {
             "host": "localhost",
             "user": "root",
-            "password": "118871356",
+            "password": "Leon123456",
             "cursorclass": pymysql.cursors.DictCursor
         }
+
 
     return db_info

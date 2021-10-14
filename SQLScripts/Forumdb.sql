@@ -4,7 +4,7 @@ use searchbase;
 Drop table if exists catInfo;
 Drop table if exists breeder;
 
-CREATE TABLE `breeder` (
+CREATE TABLE `breederInfo` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `organization` varchar(100) NOT NULL,
@@ -24,13 +24,15 @@ CREATE TABLE `catInfo` (
   `race` varchar(100) NOT NULL,
   `color` varchar(45) NOT NULL,
   `dob` datetime NOT NULL,
-  `father` int NOT NULL,
-  `mother` int NOT NULL,
+  `father` int DEFAULT NULL,
+  `mother` int DEFAULT NULL,
   `breeder` int NOT NULL,
   `listing price` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idCat_UNIQUE` (`id`),
-  FOREIGN KEY (id) REFERENCES breeder(id)
+  FOREIGN KEY (breeder) REFERENCES breederInfo(id),
+  FOREIGN KEY (father) REFERENCES catInfo(id),
+  FOREIGN KEY (mother) REFERENCES catInfo(id)
 );
 
-INSERT INTO breeder ( id, name, organization, phone, email, address, website, rating) VALUES ( '000001','Tom Hanks','TICA','+19176211078','sw@gmail.com','33 brooklyn steet, New York City','www.tomcat.com', 5 );
+INSERT INTO breederinfo ( id, name, organization, phone, email, address, website, rating) VALUES ( 1,'Tom Hanks','TICA','+19176211078','sw@gmail.com','33 brooklyn steet, New York City','www.tomcat.com', 5 );
