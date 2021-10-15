@@ -58,6 +58,16 @@ def breeder_of_cat(cid):
     rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
 
 
+@app.route('/test', methods=['GET', 'POST', 'PUT', 'DELETE'])
+def test():
+    if request.method == 'GET':
+        data = request.form
+        print(data)
+        res = BreederResource.get_by_template(None)
+        rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
+        return rsp
+
+
 # @app.route('/imdb/artists/<prefix>')
 # def get_artists_by_prefix(prefix):
 #     res = IMDBArtistResource.get_by_name_prefix(prefix)

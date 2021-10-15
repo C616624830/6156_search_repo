@@ -2,7 +2,7 @@ create database searchbase;
 use searchbase;
 
 Drop table if exists catInfo;
-Drop table if exists breeder;
+Drop table if exists breederInfo;
 
 CREATE TABLE `breederInfo` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -35,4 +35,4 @@ CREATE TABLE `catInfo` (
   FOREIGN KEY (mother) REFERENCES catInfo(id)
 );
 
-INSERT INTO breederinfo ( id, name, organization, phone, email, address, website, rating) VALUES ( 1,'Tom Hanks','TICA','+19176211078','sw@gmail.com','33 brooklyn steet, New York City','www.tomcat.com', 5 );
+INSERT INTO breederInfo ( id, name, organization, phone, email, address, website, rating) VALUES ( 1,'Tom Hanks','TICA','+19176211078','sw@gmail.com','33 brooklyn steet, New York City','www.tomcat.com', 5 );
