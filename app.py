@@ -16,20 +16,24 @@ from application_services.BreederResource.breeder_service import BreederResource
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/json')
-def json():
-    return render_template('json.html')
-
-#background process happening without any refreshing
-@app.route('/background_process_test')
-def background_process_test():
-    print ("Hello")
-    return ("nothing")
 
 
 @app.route('/')
-def hello_world():
+def get_index():
     return render_template('index.html')
+
+
+@app.route('/add_cat')
+def add_cat_page():
+    return render_template('add_cat.html')
+
+@app.route('/add_breeder')
+def add_breeder_page():
+    return render_template('add_breeder.html')
+
+@app.route('/view_breeder_rating')
+def view_breeder_rating_page():
+    return render_template('view_breeder_rating.html')
 
 # request.form is for retrieving POST request data from html form
 # requeust.args is for retrieving GET request data from html form
