@@ -22,14 +22,26 @@ def hello_world():
     return '<u>Hello World!</u>' 
 
 
-@app.route('/breeders/<bid>/<name>/<organization>/<phone>/<email>/<address>/<website>/<rating>', methods=['GET', 'POST', 'PUT', 'DELETE'])
-def breeders(bid, name, organization, phone, email, address, website, rating):
+# @app.route('/breeders/<bid>/<name>/<organization>/<phone>/<email>/<address>/<website>/<rating>', methods=['GET', 'POST', 'PUT', 'DELETE'])
+# def breeders(bid, name, organization, phone, email, address, website, rating):
+#     if request.method == 'GET':
+#         res = BreederResource.get_by_template(None)
+#         rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
+#         return rsp
+#     if request.method == 'POST':
+#         res = BreederResource.post_breeder(bid, name, organization, phone, email, address, website, rating)
+#         rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
+#         return rsp
+
+
+@app.route('/breeders', methods=['GET', 'POST', 'PUT', 'DELETE'])
+def breeders():
     if request.method == 'GET':
         res = BreederResource.get_by_template(None)
         rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
         return rsp
     if request.method == 'POST':
-        res = BreederResource.post_breeder(bid, name, organization, phone, email, address, website, rating)
+        res = BreederResource.post_breeder(request.form.get('breeder_id'), request.form.get('name'), request.form.get('organization'), request.form.get('phone'), request.form.get('email'), request.form.get('address'), request.form.get('website'), request.form.get('rating'))
         rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
         return rsp
 
@@ -41,14 +53,26 @@ def breede_rating():
         rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
         return rsp
 
-@app.route('/cats/<cid>/<race>/<color>/<dob>/<father>/<mother>/<breeder>', methods=['GET', 'POST', 'PUT', 'DELETE'])
-def cats(cid, race, color, dob, father, mother, breeder):
+# @app.route('/cats/<cid>/<race>/<color>/<dob>/<father>/<mother>/<breeder>', methods=['GET', 'POST', 'PUT', 'DELETE'])
+# def cats(cid, race, color, dob, father, mother, breeder):
+#     if request.method == 'GET':
+#         res = BreederResource.get_by_template(None)
+#         rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
+#         return rsp
+#     if request.method == 'POST':
+#         res = CatResource.post_cat(cid, race, color, dob, father, mother, breeder)
+#         rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
+#         return rsp
+
+
+@app.route('/cats', methods=['GET', 'POST', 'PUT', 'DELETE'])
+def cats():
     if request.method == 'GET':
         res = BreederResource.get_by_template(None)
         rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
         return rsp
     if request.method == 'POST':
-        res = CatResource.post_cat(cid, race, color, dob, father, mother, breeder)
+        res = CatResource.post_cat(request.form.get('cat_id'), request.form.get('race'), request.form.get('color'), request.form.get('dob'), request.form.get('father'), request.form.get('mother'), request.form.get('breeder'))
         rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
         return rsp
 
@@ -57,15 +81,6 @@ def breeder_of_cat(cid):
     res = CatResource.get_breeder_id(cid)
     rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
 
-
-@app.route('/test', methods=['GET', 'POST', 'PUT', 'DELETE'])
-def test():
-    if request.method == 'GET':
-        data = request.form
-        print(data)
-        res = BreederResource.get_by_template(None)
-        rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
-        return rsp
 
 
 # @app.route('/imdb/artists/<prefix>')
