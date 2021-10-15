@@ -20,9 +20,9 @@ def get_db_info():
 
     print(db_host)
 
-    db_host = "searhbase.coy0xnvkfahm.us-east-2.rds.amazonaws.com"
-    db_user = "admin"
-    db_password = "12345678"
+    # db_host = "searhbase.coy0xnvkfahm.us-east-2.rds.amazonaws.com"
+    # db_user = "admin"
+    # db_password = "12345678"
 
     if db_host is not None:
         db_info = {
@@ -36,7 +36,7 @@ def get_db_info():
         db_info = {
             "host": "localhost",
             "user": "root",
-            "password": "Leon123456",
+            "password": "118871356",
             "cursorclass": pymysql.cursors.DictCursor
         }
 

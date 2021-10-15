@@ -27,7 +27,7 @@ CREATE TABLE `catInfo` (
   `father` int DEFAULT NULL,
   `mother` int DEFAULT NULL,
   `breeder` int NOT NULL,
-  `listing price` int DEFAULT NULL,
+  `listing_price` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idCat_UNIQUE` (`id`),
   FOREIGN KEY (breeder) REFERENCES breederInfo(id),
@@ -36,3 +36,4 @@ CREATE TABLE `catInfo` (
 );
 
 INSERT INTO breederInfo ( id, name, organization, phone, email, address, website, rating) VALUES ( 1,'Tom Hanks','TICA','+19176211078','sw@gmail.com','33 brooklyn steet, New York City','www.tomcat.com', 5 );
+INSERT INTO catInfo ( id, name, race, color, dob, father, mother, breeder, listing_price) VALUES ( 1,'Alpha','Rugdoll','bicolor','2021-02-03','0', '0',1, 500);

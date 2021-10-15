@@ -1,4 +1,4 @@
-from flask import Flask, Response,request
+from flask import *
 import database_services.RDBService as d_service
 from flask_cors import CORS
 import json
@@ -16,11 +16,20 @@ from application_services.BreederResource.breeder_service import BreederResource
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/json')
+def json():
+    return render_template('json.html')
+
+#background process happening without any refreshing
+@app.route('/background_process_test')
+def background_process_test():
+    print ("Hello")
+    return ("nothing")
+
 
 @app.route('/')
 def hello_world():
-    return '<u>Hello World!</u>' 
-
+    return render_template('index.html')
 
 # request.form is for retrieving POST request data from html form
 # requeust.args is for retrieving GET request data from html form
