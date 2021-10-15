@@ -22,16 +22,8 @@ def hello_world():
     return '<u>Hello World!</u>' 
 
 
-# @app.route('/breeders/<bid>/<name>/<organization>/<phone>/<email>/<address>/<website>/<rating>', methods=['GET', 'POST', 'PUT', 'DELETE'])
-# def breeders(bid, name, organization, phone, email, address, website, rating):
-#     if request.method == 'GET':
-#         res = BreederResource.get_by_template(None)
-#         rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
-#         return rsp
-#     if request.method == 'POST':
-#         res = BreederResource.post_breeder(bid, name, organization, phone, email, address, website, rating)
-#         rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
-#         return rsp
+# request.form is for retrieving POST request data from html form
+# requeust.args is for retrieving GET request data from html form
 
 
 @app.route('/breeders', methods=['GET', 'POST', 'PUT', 'DELETE'])
@@ -52,17 +44,6 @@ def breede_rating():
         res = BreederResource.get_breeder_rating(breeder_id)
         rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
         return rsp
-
-# @app.route('/cats/<cid>/<race>/<color>/<dob>/<father>/<mother>/<breeder>', methods=['GET', 'POST', 'PUT', 'DELETE'])
-# def cats(cid, race, color, dob, father, mother, breeder):
-#     if request.method == 'GET':
-#         res = BreederResource.get_by_template(None)
-#         rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
-#         return rsp
-#     if request.method == 'POST':
-#         res = CatResource.post_cat(cid, race, color, dob, father, mother, breeder)
-#         rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
-#         return rsp
 
 
 @app.route('/cats', methods=['GET', 'POST', 'PUT', 'DELETE'])

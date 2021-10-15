@@ -18,9 +18,11 @@ def get_db_info():
     # db_user = os.environ.get("DBUSER")
     # db_password = os.environ.get("DBPASSWORD")
 
-    # db_host = "searchdatabase.coy0xnvkfahm.us-east-2.rds.amazonaws.com"
-    # db_user = "admin"
-    # db_password = "12345678"
+    print(db_host)
+
+    db_host = "searhbase.coy0xnvkfahm.us-east-2.rds.amazonaws.com"
+    db_user = "admin"
+    db_password = "12345678"
 
     if db_host is not None:
         db_info = {
@@ -40,3 +42,5 @@ def get_db_info():
 
 
     return db_info
+
+
