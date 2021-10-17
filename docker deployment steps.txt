@@ -1,0 +1,28 @@
+how to deploy seachapp on ec2 docker
+
+1. connect to ec2
+
+2. cd into the repo directory
+
+3. docker build -t searchapp .
+
+4. docker run -p 5000:5000 searchapp
+
+
+how to list all existing docker images:
+
+	docker images
+
+
+how to list all docker containers:
+
+	docker ps -a
+
+
+how to delete images:
+	
+	docker rmi imageid
+
+how to delete docker containers: (containers need to be deleted before deleting dependent images)
+
+	docker rm containerid
