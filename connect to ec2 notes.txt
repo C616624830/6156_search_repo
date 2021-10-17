@@ -1,0 +1,4 @@
+connect to ec2 notes:
+
+Everytime ec2 instance is restarted, its ip4 address will be different from the previous running instance. Therefore, when ssh to ec2 instance, always use the new ip4 address.
+
