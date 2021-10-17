@@ -1,0 +1,9 @@
+how to deploy seachapp on ec2 docker
+
+1. connect to ec2
+
+2. cd into the repo directory
+
+3. docker build -t searchapp .
+
+4. docker run -p 5000:5000 searchapp
