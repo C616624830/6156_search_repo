@@ -80,18 +80,20 @@ def breeders():
         template = {k: v for k, v in template.items() if v} # remove key-value pairs where value is empty such as 'father': ''
         id = template.get('id', None)
         print("id", id)
-        if not id.isdigit() or int(id) <= 0:
-            rsp = Response(json.dumps("id in wrong format", default=str), status=400,
-                           content_type="application/json")
-            return rsp
-        elif BreederResource.check_breeder_id_exist(id):
-            rsp = Response(json.dumps("id already exist", default=str), status=422,
-                           content_type="application/json")
-            return rsp
 
         res = None
         try:
+            if not id.isdigit() or int(id) <= 0:
+                rsp = Response(json.dumps("id in wrong format", default=str), status=400,
+                               content_type="application/json")
+                return rsp
+            elif BreederResource.check_breeder_id_exist(id):
+                rsp = Response(json.dumps("id already exist", default=str), status=422,
+                               content_type="application/json")
+                return rsp
+
             res = BreederResource.post_breeder(template)
+
         except pymysql.err.OperationalError as e:
             print(f"error: {e}")
             rsp = Response(json.dumps("Internal Server Error", default=str), status=500,
@@ -109,18 +111,19 @@ def breeders():
         # print(template)
         id = template.get('id', None)
         # print("id", id)
-        if not id.isdigit() or int(id) <= 0:
-            rsp = Response(json.dumps("id in wrong format", default=str), status=400,
-                           content_type="application/json")
-            return rsp
-        elif not BreederResource.check_breeder_id_exist(id):
-            rsp = Response(json.dumps("id does not exist", default=str), status=422,
-                           content_type="application/json")
-            return rsp
 
         res = None
         try:
+            if not id.isdigit() or int(id) <= 0:
+                rsp = Response(json.dumps("id in wrong format", default=str), status=400,
+                               content_type="application/json")
+                return rsp
+            elif not BreederResource.check_breeder_id_exist(id):
+                rsp = Response(json.dumps("id does not exist", default=str), status=422,
+                               content_type="application/json")
+                return rsp
             res = BreederResource.delete_breeder(id)
+
         except pymysql.err.OperationalError as e:
             print(f"error: {e}")
             rsp = Response(json.dumps("Internal Server Error", default=str), status=500, content_type="application/json")
@@ -134,24 +137,24 @@ def breeders():
     if request.method == 'PUT':
         template = request.args.to_dict()
         id = template.get('id', None)
-        # print('id:', id)
-
-        if not id.isdigit() or int(id) <= 0:
-            rsp = Response(json.dumps("id in wrong format", default=str), status=400,
-                           content_type="application/json")
-            return rsp
-        elif not BreederResource.check_breeder_id_exist(id):
-            rsp = Response(json.dumps("id does not exist", default=str), status=422,
-                           content_type="application/json")
-            return rsp
-
         template = {k: v for k, v in template.items() if
                     v and k != 'id'}  # remove key-value pairs where value is empty such as 'father': ''
         # print('template:', template)
+        # print('id:', id)
 
         res = None
         try:
+            if not id.isdigit() or int(id) <= 0:
+                rsp = Response(json.dumps("id in wrong format", default=str), status=400,
+                               content_type="application/json")
+                return rsp
+            elif not BreederResource.check_breeder_id_exist(id):
+                rsp = Response(json.dumps("id does not exist", default=str), status=422,
+                               content_type="application/json")
+                return rsp
+
             res = BreederResource.put_breeder(id, template)
+
         except pymysql.err.OperationalError as e:
             print(f"error: {e}")
             rsp = Response(json.dumps("Internal Server Error", default=str), status=500,
@@ -196,46 +199,49 @@ def cats():
         # print(request.form.to_dict())
         template = request.form.to_dict()
         template = {k: v for k, v in template.items() if v} # remove key-value pairs where value is empty such as 'father': ''
-        for k,v in template.items():
-            if k == 'id':
-                if not v.isdigit() or int(v) <= 0:
-                    rsp = Response(json.dumps("id in wrong format", default=str), status=400, content_type="application/json")
-                    return rsp
-                elif CatResource.check_cat_id_exist(v):
-                    rsp = Response(json.dumps("id already exist", default=str), status=422,
-                                   content_type="application/json")
-                    return rsp
-
-            if k == 'father':
-                if not v.isdigit() or int(v) <= 0:
-                    rsp = Response(json.dumps("father id in wrong format", default=str), status=400, content_type="application/json")
-                    return rsp
-                elif not CatResource.check_cat_id_exist(v):
-                    rsp = Response(json.dumps("father id does not exist", default=str), status=422,
-                                   content_type="application/json")
-                    return rsp
-
-            if k == 'mother':
-                if not v.isdigit() or int(v) <= 0:
-                    rsp = Response(json.dumps("mother id in wrong format", default=str), status=400, content_type="application/json")
-                    return rsp
-                elif not CatResource.check_cat_id_exist(v):
-                    rsp = Response(json.dumps("mother id does not exist", default=str), status=422,
-                                   content_type="application/json")
-                    return rsp
-
-            if k == 'breeder':
-                if not v.isdigit() or int(v) <= 0:
-                    rsp = Response(json.dumps("breeder id in wrong format", default=str), status=400, content_type="application/json")
-                    return rsp
-                elif not BreederResource.check_breeder_id_exist(v):
-                    rsp = Response(json.dumps("breeder id does not exist", default=str), status=422,
-                                   content_type="application/json")
-                    return rsp
 
         res = None
         try:
+
+            for k,v in template.items():
+                if k == 'id':
+                    if not v.isdigit() or int(v) <= 0:
+                        rsp = Response(json.dumps("id in wrong format", default=str), status=400, content_type="application/json")
+                        return rsp
+                    elif CatResource.check_cat_id_exist(v):
+                        rsp = Response(json.dumps("id already exist", default=str), status=422,
+                                       content_type="application/json")
+                        return rsp
+
+                if k == 'father':
+                    if not v.isdigit() or int(v) <= 0:
+                        rsp = Response(json.dumps("father id in wrong format", default=str), status=400, content_type="application/json")
+                        return rsp
+                    elif not CatResource.check_cat_id_exist(v):
+                        rsp = Response(json.dumps("father id does not exist", default=str), status=422,
+                                       content_type="application/json")
+                        return rsp
+
+                if k == 'mother':
+                    if not v.isdigit() or int(v) <= 0:
+                        rsp = Response(json.dumps("mother id in wrong format", default=str), status=400, content_type="application/json")
+                        return rsp
+                    elif not CatResource.check_cat_id_exist(v):
+                        rsp = Response(json.dumps("mother id does not exist", default=str), status=422,
+                                       content_type="application/json")
+                        return rsp
+
+                if k == 'breeder':
+                    if not v.isdigit() or int(v) <= 0:
+                        rsp = Response(json.dumps("breeder id in wrong format", default=str), status=400, content_type="application/json")
+                        return rsp
+                    elif not BreederResource.check_breeder_id_exist(v):
+                        rsp = Response(json.dumps("breeder id does not exist", default=str), status=422,
+                                       content_type="application/json")
+                        return rsp
+
             res = CatResource.post_cat(template)
+
         except pymysql.err.OperationalError as e:
             print(f"error: {e}")
             rsp = Response(json.dumps("Internal Server Error", default=str), status=500,
@@ -253,18 +259,20 @@ def cats():
         print(template)
         id = template.get('id', None)
         print("id", id)
-        if not id.isdigit() or int(id) <= 0:
-            rsp = Response(json.dumps("id in wrong format", default=str), status=400,
-                           content_type="application/json")
-            return rsp
-        elif not CatResource.check_cat_id_exist(id):
-            rsp = Response(json.dumps("id does not exist", default=str), status=422,
-                           content_type="application/json")
-            return rsp
 
         res = None
         try:
+            if not id.isdigit() or int(id) <= 0:
+                rsp = Response(json.dumps("id in wrong format", default=str), status=400,
+                               content_type="application/json")
+                return rsp
+            elif not CatResource.check_cat_id_exist(id):
+                rsp = Response(json.dumps("id does not exist", default=str), status=422,
+                               content_type="application/json")
+                return rsp
+
             res = CatResource.delete_cat(id)
+
         except pymysql.err.OperationalError as e:
             print(f"error: {e}")
             rsp = Response(json.dumps("Internal Server Error", default=str), status=500, content_type="application/json")
@@ -280,22 +288,23 @@ def cats():
         id = template.get('id', None)
         # print('id:', id)
 
-        if not id.isdigit() or int(id) <= 0:
-            rsp = Response(json.dumps("id in wrong format", default=str), status=400,
-                           content_type="application/json")
-            return rsp
-        elif not CatResource.check_cat_id_exist(id):
-            rsp = Response(json.dumps("id does not exist", default=str), status=422,
-                           content_type="application/json")
-            return rsp
-
-        template = {k: v for k, v in template.items() if
-                    v and k != 'id'}  # remove key-value pairs where value is empty such as 'father': ''
-        # print('template:', template)
-
         res = None
         try:
+            if not id.isdigit() or int(id) <= 0:
+                rsp = Response(json.dumps("id in wrong format", default=str), status=400,
+                               content_type="application/json")
+                return rsp
+            elif not CatResource.check_cat_id_exist(id):
+                rsp = Response(json.dumps("id does not exist", default=str), status=422,
+                               content_type="application/json")
+                return rsp
+
+            template = {k: v for k, v in template.items() if
+                        v and k != 'id'}  # remove key-value pairs where value is empty such as 'father': ''
+            # print('template:', template)
+
             res = CatResource.put_cat(id, template)
+
         except pymysql.err.OperationalError as e:
             print(f"error: {e}")
             rsp = Response(json.dumps("Internal Server Error", default=str), status=500,
