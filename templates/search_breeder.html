@@ -1,0 +1,15 @@
+<html lang="en">
+{% block body %}
+<h3>search breeder </h3>
+<form method="GET" action="/breeders">
+    <label for="">Breeder id:</label> <input type="text" name="id"> <br>
+    <label for="">name：</label> <input type="text" name="name"> <br>
+    <label for="">organization: </label> <input type="text" name="organization"> <br>
+    <label for="">phone: </label> <input type="text" name="phone"> <br>
+	<label for="">email: </label> <input type="text" name="father"> <br>
+    <label for="">rating: </label> <input type="text" name="mother"> <br>
+    <input type="submit" value="search">
+    </form>
+{% endblock %}
+</body>
+</html>

@@ -23,7 +23,7 @@ def _get_db_connection():
     return db_connection
 
 
-def get_specifc_column(db_schema, table_name, column_name, targeted_row, value):
+def select_specific_column(db_schema, table_name, column_name, targeted_row, value):
 
     conn = _get_db_connection()
     cur = conn.cursor()
@@ -36,39 +36,58 @@ def get_specifc_column(db_schema, table_name, column_name, targeted_row, value):
     res = cur.fetchall()
 
     conn.close()
-
+    # print("res: ")
+    # print(res)
+    # print("..")
     return res
 
 
-def add_cat(db_schema, table_name, catid, race, color, dob, fatherid, motherid, breederid):
+def insert_by_template(db_schema, table_name, template, field_list):
 
     conn = _get_db_connection()
     cur = conn.cursor()
 
+    clause,args = _insert_clause_args(template)
 
-    if fatherid == "0" and motherid == "0":
-        sql = "INSERT INTO " + db_schema + "." + table_name + \
-              " (id, race, color, dob, breeder) VALUES(" + \
-              catid + ", " + "'" + race + "'" + ", " + "'" + color + "'" + ", " + "'" + dob + "'" + ", " + breederid + ")"
+    sql = "INSERT INTO " + db_schema + "." + table_name + clause
 
-    elif fatherid == "0" and motherid != "0":
-        sql = "INSERT INTO " + db_schema + "." + table_name + \
-              " (id, race, color, dob, mother, breeder) VALUES (" + \
-              catid + ", " + "'" + race + "'" + ", " + "'" + color + "'" + ", " + "'" + dob + "'" + ", " + motherid + ", " + breederid + ")"
+    print("SQL Statement = " + cur.mogrify(sql, None))
 
-    elif fatherid != "0" and motherid == "0":
-        sql = "INSERT INTO " + db_schema + "." + table_name + \
-              " (id, race, color, dob, father, breeder) VALUES (" + \
-              catid + ", " + "'" + race + "'" + ", " + "'" + color + "'" + ", " + "'" + dob + "'" + ", " + fatherid +  ", " + breederid + ")"
+    res = cur.execute(sql, args=args)
+    conn.commit()
+    res = cur.fetchall()
 
+    conn.close()
+
+    return res
+
+
+def _insert_clause_args(template):
+    terms = []
+    args = []
+    params = []
+    clause = None
+
+    if template is None or template == {}:
+        clause = ""
+        args = None
     else:
-        sql = "INSERT INTO " + db_schema + "." + table_name + \
-              " (id, race, color, dob, father, mother, breeder) VALUES (" + \
-              catid + ", " + "'" + race + "'" + ", " + "'" + color + "'" + ", " + "'" + dob + "'" + ", " + fatherid + ", " + motherid + ", " + breederid + ")"
+        for k, v in template.items():
+            terms.append(k)
+            params.append("%s")
+            args.append(v)
 
+        clause = " (" + ", ".join(terms) + ") VALUES (" + ", ".join(params) + ")"
 
+    # print(clause)
+    # print(args)
+    return clause, args
 
-    print("SQL Statement = " + cur.mogrify(sql, None))
+def delete_by_id(db_schema, table_name, id, field_list):
+    conn = _get_db_connection()
+    cur = conn.cursor()
+
+    sql = f"delete from {db_schema}.{table_name} where id = {id}"
 
     res = cur.execute(sql)
     conn.commit()
@@ -78,20 +97,18 @@ def add_cat(db_schema, table_name, catid, race, color, dob, fatherid, motherid, 
 
     return res
 
-
-def add_breeder(db_schema, table_name, bid, name, organization, phone, email, address, website, rating):
+def update_by_id_template(db_schema, table_name, id, template, field_list):
 
     conn = _get_db_connection()
     cur = conn.cursor()
 
+    clause,args = _update_clause_args(id, template)
 
-    sql = "INSERT INTO " + db_schema + "." + table_name + \
-          " (id, name, organization, phone, email, address, website, rating) VALUES (" + \
-          bid + ", " + "'" + name + "'" + ", " + "'" + organization + "'" + ", " + "'" + phone + "'" + ", " + "'" + email + "'" + ", " + "'" + address + "'" + ", " + "'" + website + "'" + ", " + rating + ")"
+    sql = "UPDATE " + db_schema + "." + table_name + " " + clause
 
     print("SQL Statement = " + cur.mogrify(sql, None))
 
-    res = cur.execute(sql)
+    res = cur.execute(sql, args=args)
     conn.commit()
     res = cur.fetchall()
 
@@ -99,7 +116,27 @@ def add_breeder(db_schema, table_name, bid, name, organization, phone, email, ad
 
     return res
 
-def get_by_prefix(db_schema, table_name, column_name, value_prefix):
+def _update_clause_args(id, template):
+    terms = []
+    args = []
+    clause = None
+
+    if template is None or template == {}:
+        clause = ""
+        args = None
+    else:
+        for k, v in template.items():
+            terms.append(f"{k}=%s")
+            args.append(v)
+
+    clause = "SET " + ", ".join(terms) + f" where id = {id}"
+
+    # print(clause)
+    # print(args)
+    return clause, args
+
+
+def select_by_prefix(db_schema, table_name, column_name, value_prefix):
 
     conn = _get_db_connection()
     cur = conn.cursor()
@@ -116,7 +153,25 @@ def get_by_prefix(db_schema, table_name, column_name, value_prefix):
     return res
 
 
-def _get_where_clause_args(template):
+
+
+def select_by_template(db_schema, table_name, template, field_list):
+
+    wc,args = _where_clause_args(template)
+
+    conn = _get_db_connection()
+    cur = conn.cursor()
+
+    sql = "select * from " + db_schema + "." + table_name + " " + wc
+    res = cur.execute(sql, args=args)
+    res = cur.fetchall()
+
+    # print(res)
+    conn.close()
+
+    return res
+
+def _where_clause_args(template):
 
     terms = []
     args = []
@@ -134,20 +189,3 @@ def _get_where_clause_args(template):
 
 
     return clause, args
-
-
-def find_by_template(db_schema, table_name, template, field_list):
-
-    wc,args = _get_where_clause_args(template)
-
-    conn = _get_db_connection()
-    cur = conn.cursor()
-
-    sql = "select * from " + db_schema + "." + table_name + " " + wc
-    res = cur.execute(sql, args=args)
-    res = cur.fetchall()
-
-    conn.close()
-
-    return res
-

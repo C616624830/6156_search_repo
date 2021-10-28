@@ -14,15 +14,12 @@ def get_db_info():
     db_user = os.environ.get("DBUSER", None)
     db_password = os.environ.get("DBPASSWORD", None)
 
-    # db_host = os.environ.get("DBHOST")
-    # db_user = os.environ.get("DBUSER")
-    # db_password = os.environ.get("DBPASSWORD")
 
-    print(db_host)
+    # print(db_host)
 
-    db_host = "searhbase.coy0xnvkfahm.us-east-2.rds.amazonaws.com"
-    db_user = "admin"
-    db_password = "12345678"
+    # db_host = "searhbase.coy0xnvkfahm.us-east-2.rds.amazonaws.com"
+    # db_user = "admin"
+    # db_password = "12345678"
 
     if db_host is not None:
         db_info = {
@@ -36,7 +33,7 @@ def get_db_info():
         db_info = {
             "host": "localhost",
             "user": "root",
-            "password": "118871356",
+            "password": "Leon123456",
             "cursorclass": pymysql.cursors.DictCursor
         }
 

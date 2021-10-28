@@ -30,9 +30,9 @@ CREATE TABLE `catInfo` (
   `listing_price` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idCat_UNIQUE` (`id`),
-  FOREIGN KEY (breeder) REFERENCES breederInfo(id),
-  FOREIGN KEY (father) REFERENCES catInfo(id),
-  FOREIGN KEY (mother) REFERENCES catInfo(id)
+  CONSTRAINT FK_breeder FOREIGN KEY (breeder) REFERENCES breederInfo(id) ON DELETE CASCADE,
+  CONSTRAINT FK_father FOREIGN KEY (father) REFERENCES catInfo(id) ON DELETE SET NULL,
+  CONSTRAINT FK_mother FOREIGN KEY (mother) REFERENCES catInfo(id) ON DELETE SET NULL
 );
 
 INSERT INTO breederInfo ( id, name, organization, phone, email, address, website, rating) VALUES ( 1,'Tom Hanks','TICA','+19176211078','sw@gmail.com','33 brooklyn steet, New York City','www.tomcat.com', 5 );
