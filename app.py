@@ -13,9 +13,15 @@ logger.setLevel(logging.INFO)
 from application_services.CatResource.cat_service import CatResource
 from application_services.BreederResource.breeder_service import BreederResource
 
+import middleware.notification as notification
 
 app = Flask(__name__)
 CORS(app)
+
+@app.after_request
+def after_request_func(response):
+    notification.NotificationMiddlewareHandler.notify(request, response)
+    return response
 
 
 

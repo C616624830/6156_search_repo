@@ -83,6 +83,7 @@ def _insert_clause_args(template):
     # print(args)
     return clause, args
 
+
 def delete_by_id(db_schema, table_name, id, field_list):
     conn = _get_db_connection()
     cur = conn.cursor()
@@ -96,6 +97,7 @@ def delete_by_id(db_schema, table_name, id, field_list):
     conn.close()
 
     return res
+
 
 def update_by_id_template(db_schema, table_name, id, template, field_list):
 
@@ -115,6 +117,7 @@ def update_by_id_template(db_schema, table_name, id, template, field_list):
     conn.close()
 
     return res
+
 
 def _update_clause_args(id, template):
     terms = []
@@ -153,8 +156,6 @@ def select_by_prefix(db_schema, table_name, column_name, value_prefix):
     return res
 
 
-
-
 def select_by_template(db_schema, table_name, template, field_list):
 
     wc,args = _where_clause_args(template)
@@ -170,6 +171,7 @@ def select_by_template(db_schema, table_name, template, field_list):
     conn.close()
 
     return res
+
 
 def _where_clause_args(template):
 
