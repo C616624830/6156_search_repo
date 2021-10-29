@@ -4,6 +4,22 @@ import os
 # This is a bad place for this import
 import pymysql
 
+
+def get_context(key):
+    """
+    Get all paths which subscriped SNS message
+    :return: a list of string
+    """
+    subscriptions = os.environ.get("SUBSCRIPTIONS", None)
+
+    if subscriptions is None:
+        dic = {
+            "SUBSCRIPTIONS": ["/breeders"]
+        }
+        return dic[key]
+    return subscriptions
+
+
 def get_db_info():
     """
     This is crappy code.

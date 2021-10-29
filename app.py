@@ -15,6 +15,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 
+import middleware.notification as notification
 
 app = Flask(__name__)
 CORS(app)
@@ -47,6 +48,14 @@ def before_request_func():
 # @app.after_request
 # def after_request_func():
 #     pass
+
+
+@app.after_request
+def after_request_func(response):
+    notification.NotificationMiddlewareHandler.notify(request, response)
+    return response
+
+
 
 @app.route('/test')
 def test():
