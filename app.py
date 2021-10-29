@@ -3,21 +3,54 @@ import database_services.RDBService as d_service
 from flask_cors import CORS
 import json
 import pymysql
-
 import logging
+from application_services.CatResource.cat_service import CatResource
+from application_services.BreederResource.breeder_service import BreederResource
+from flask_dance.contrib.google import make_google_blueprint, google
+import middleware.simple_security as simple_security
+import os
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-from application_services.CatResource.cat_service import CatResource
-from application_services.BreederResource.breeder_service import BreederResource
 
 
 app = Flask(__name__)
 CORS(app)
 
+client_id = '976256573861-jhch30roklu17geaofr0c58rmtt5rps2.apps.googleusercontent.com'
+client_secret = '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'
+app.secret_key = 'some secret'
 
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
+
+blueprint = make_google_blueprint(
+    client_id=client_id,
+    client_secret=client_secret,
+    reprompt_consent=True,
+    scope=["profile", "email"]
+)
+app.register_blueprint(blueprint, url_prefix="/login")
+
+g_bp = app.blueprints.get("google")
+
+@app.before_request
+def before_request_func():
+    result_ok = simple_security.check_security(request, google, g_bp)
+
+    if not result_ok:
+        print('flag2')
+        return redirect(url_for('google.login'))
+
+# @app.after_request
+# def after_request_func():
+#     pass
+
+@app.route('/test')
+def test():
+    return 'secure login'
 
 @app.route('/')
 def get_index():
@@ -335,4 +368,4 @@ def breeder_of_cat(cid):
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="localhost", port=5000)
