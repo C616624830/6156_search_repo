@@ -20,8 +20,8 @@ import middleware.notification as notification
 app = Flask(__name__)
 CORS(app)
 
-client_id = '976256573861-jhch30roklu17geaofr0c58rmtt5rps2.apps.googleusercontent.com'
-client_secret = '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'
+client_id = '976256573861-nlenqrfe3ls85fogbjneqor2fre8co1o.apps.googleusercontent.com'
+client_secret = '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'
 app.secret_key = 'some secret'
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
@@ -39,15 +39,13 @@ g_bp = app.blueprints.get("google")
 
 @app.before_request
 def before_request_func():
+    print("flag0")
     result_ok = simple_security.check_security(request, google, g_bp)
-
+    print("flag3")
     if not result_ok:
-        print('flag2')
+        print('flag4')
         return redirect(url_for('google.login'))
 
-# @app.after_request
-# def after_request_func():
-#     pass
 
 
 @app.after_request
