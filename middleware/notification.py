@@ -23,11 +23,11 @@ class NotificationMiddlewareHandler:
                 notification["change"] = "CREATED"
                 notification["new_state"] = request_data
                 notification["params"] = path
-            elif request.method == 'POST':
+            elif request.method == 'PUT':
                 notification["change"] = "UPDATE"
                 notification["new_state"] = request_data
                 notification["params"] = path
-            elif request.method == 'POST':
+            elif request.method == 'DELETE':
                 notification["change"] = "DELETE"
                 notification["new_state"] = request_data
                 notification["params"] = path
