@@ -11,12 +11,12 @@ def check_security(request, google, blueprint):
     if path not in insecure_paths:
         google_data = None
 
-        print("flag1")
+        # print("flag1")
 
         user_info_endpoint = '/oauth2/v2/userinfo'
 
         if google.authorized:
-            print("flag2")
+            # print("flag2")
 
             google_data = google.get(user_info_endpoint).json()
 
@@ -24,7 +24,7 @@ def check_security(request, google, blueprint):
 
             s = blueprint.session
             t = s.token
-            print("Token = \n", json.dumps(t, indent=2))
+            # print("Token = \n", json.dumps(t, indent=2))
 
             result_ok = True
 
