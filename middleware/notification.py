@@ -31,6 +31,10 @@ class NotificationMiddlewareHandler:
                 notification["change"] = "DELETE"
                 notification["new_state"] = request_data
                 notification["params"] = path
+            elif request.method == 'GET':
+                notification["change"] = "GET"
+                notification["new_state"] = request_data
+                notification["params"] = path
             else:
                 notification = None
             if notification.get("change", None):
