@@ -21,7 +21,7 @@ app = Flask(__name__)
 CORS(app)
 
 client_id = '976256573861-nlenqrfe3ls85fogbjneqor2fre8co1o.apps.googleusercontent.com'
-client_secret = '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'
+client_secret = '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'
 app.secret_key = 'some secret'
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
@@ -31,7 +31,8 @@ blueprint = make_google_blueprint(
     client_id=client_id,
     client_secret=client_secret,
     reprompt_consent=True,
-    scope=["profile", "email"]
+    scope=["profile", "email"],
+    offline = True
 )
 app.register_blueprint(blueprint, url_prefix="/login")
 
