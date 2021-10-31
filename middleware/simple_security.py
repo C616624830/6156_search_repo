@@ -20,7 +20,7 @@ def check_security(request, google, blueprint):
 
             google_data = google.get(user_info_endpoint).json()
 
-            print(json.dumps(google_data, indent=2))
+            # print(json.dumps(google_data, indent=2))
 
             s = blueprint.session
             t = s.token
