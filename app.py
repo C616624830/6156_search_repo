@@ -37,21 +37,21 @@ app.register_blueprint(blueprint, url_prefix="/login")
 
 g_bp = app.blueprints.get("google")
 
-# @app.before_request
-# def before_request_func():
-#     print("flag0")
-#     result_ok = simple_security.check_security(request, google, g_bp)
-#     print("flag3")
-#     if not result_ok:
-#         print('flag4')
-#         return redirect(url_for('google.login'))
-#
-#
-#
-# @app.after_request
-# def after_request_func(response):
-#     notification.NotificationMiddlewareHandler.notify(request, response)
-#     return response
+@app.before_request
+def before_request_func():
+    print("flag0")
+    result_ok = simple_security.check_security(request, google, g_bp)
+    print("flag3")
+    if not result_ok:
+        print('flag4')
+        return redirect(url_for('google.login'))
+
+
+
+@app.after_request
+def after_request_func(response):
+    notification.NotificationMiddlewareHandler.notify(request, response)
+    return response
 
 
 
@@ -375,4 +375,4 @@ def breeder_of_cat(cid):
 
 
 if __name__ == '__main__':
-    app.run(host="127.0.0.1", port=5000)
+    app.run(host="0.0.0.0", port=5000)
