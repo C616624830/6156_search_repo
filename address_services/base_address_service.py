@@ -12,18 +12,18 @@ candidate_fields = [
 class AddressDataTransferObject:
 
     def __init__(self):
-        self.city_name = None
-        self.city_name = None
-        self.unique_id = None
-        self.street_no_1 = None
-        self.state = None
-        self.street_name = None
-        self.street_prefix = None
-        self.street_cat = None
-        self.street_suffix = None
-        self.zipcode = None
-        self.extras = None
-
+        # self.city_name = None
+        # self.city_name = None
+        # self.unique_id = None
+        # self.street_no_1 = None
+        # self.state = None
+        # self.street_name = None
+        # self.street_prefix = None
+        # self.street_cat = None
+        # self.street_suffix = None
+        # self.zipcode = None
+        # self.extras = None
+        self.address = None
 
 class BaseAddressService(ABC):
 

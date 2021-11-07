@@ -23,10 +23,11 @@ def get_context(key):
             "auth_id": "",
             "auth_token": ""
         }
+        if key == "SMARTY":
+            return smarty_info
     if key == "SUBSCRIPTIONS":
         return subscriptions
-    if key == "SMARTY":
-        return smarty_info
+
 
 
 def get_db_info():
