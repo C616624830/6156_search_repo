@@ -11,20 +11,17 @@ def get_context(key):
     :return: a list of string
     """
     subscriptions = os.environ.get("SUBSCRIPTIONS", None)
-    smarty = os.environ.get("SMARTY", None)
+    smarty_info = os.environ.get("SMARTY", None)
 
     if subscriptions is None:
-        dic = {
-            "SUBSCRIPTIONS": ["/breeders"]
-        }
-        return dic[key]
-    if smarty is None:
+        subscriptions = ["/breeders"]
+    if smarty_info is None:
         smarty_info = {
-            "auth_id": "",
-            "auth_token": ""
+            "auth_id": "0312a540-9237-9638-226e-91bd46c93d61",
+            "auth_token": "oQQ3a8dvf0kSF3gvL3Rh"
         }
-        if key == "SMARTY":
-            return smarty_info
+    if key == "SMARTY":
+        return smarty_info
     if key == "SUBSCRIPTIONS":
         return subscriptions
 

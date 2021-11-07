@@ -8,9 +8,9 @@ class BreederResource(BaseApplicationResource):
         super().__init__()
 
     @classmethod
-    def get_breeders(cls, template):
+    def get_breeders(cls, template, field_list):
         res = d_service.select_by_template("searchbase", "breederInfo",
-                                       template, None)
+                                       template, field_list)
         return res
 
     # add a new breeder to database (all not null parameters are needed)

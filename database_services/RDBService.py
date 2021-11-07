@@ -158,15 +158,20 @@ def select_by_prefix(db_schema, table_name, column_name, value_prefix):
 
 def select_by_template(db_schema, table_name, template, field_list):
 
+    limit = template.get('limit');
+    offset = template.get('offset');
+
+    template = {k: v for k, v in template.items() if k!= 'limit' and k!='offset'}
     wc,args = _where_clause_args(template)
+
 
     conn = _get_db_connection()
     cur = conn.cursor()
 
-    sql = "select * from " + db_schema + "." + table_name + " " + wc
+    sql = "select * from " + db_schema + "." + table_name + " " + wc + " limit " + limit + " offset " + offset
     res = cur.execute(sql, args=args)
     res = cur.fetchall()
-
+    print(sql)
     # print(res)
     conn.close()
 

@@ -15,7 +15,7 @@ class CatResource(BaseApplicationResource):
 
 
     @classmethod
-    def get_cats(cls, template):
+    def get_cats(cls, template, field_list):
         res = d_service.select_by_template("searchbase", "catInfo",
                                          template, None)
         return res
