@@ -1,8 +1,8 @@
 
 import os
-
 # This is a bad place for this import
 import pymysql
+import json
 
 
 def get_context(key):
@@ -11,13 +11,22 @@ def get_context(key):
     :return: a list of string
     """
     subscriptions = os.environ.get("SUBSCRIPTIONS", None)
+    smarty = os.environ.get("SMARTY", None)
 
     if subscriptions is None:
         dic = {
             "SUBSCRIPTIONS": ["/breeders"]
         }
         return dic[key]
-    return subscriptions
+    if smarty is None:
+        smarty_info = {
+            "auth_id": "",
+            "auth_token": ""
+        }
+    if key == "SUBSCRIPTIONS":
+        return subscriptions
+    if key == "SMARTY":
+        return smarty_info
 
 
 def get_db_info():

@@ -11,3 +11,4 @@ boto3==1.19.6
 flask-dance[sqla]
 flask-sqlalchemy
 blinker
+smartystreets-python-sdk==4.10.2
