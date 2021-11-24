@@ -46,7 +46,8 @@ def before_request_func():
     # print("flag3")
     if not result_ok:
         print('flag4')
-        return redirect(url_for('google.login'))
+        print(url_for('/'))
+        return redirect(url_for('/'))
 
 
 
