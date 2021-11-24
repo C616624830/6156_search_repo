@@ -45,7 +45,8 @@ def before_request_func():
     result_ok = simple_security.check_security(request, google, g_bp)
     # print("flag3")
     if not result_ok:
-        # print('flag4')
+        print('flag4')
+        print(url_for('google.login'))
         return redirect(url_for('google.login'))
 
 
