@@ -1,6 +1,6 @@
 import json
 
-insecure_paths = ['/login/google', '/login/google/authorized','/']
+insecure_paths = ['/login/google', '/login/google/authorized']
 
 
 def check_security(request, google, blueprint):
