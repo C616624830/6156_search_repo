@@ -47,7 +47,7 @@ def before_request_func():
     if not result_ok:
         print('flag4')
         # print(url_for('/'))
-        return redirect('http://3.133.105.233.nip.io:5000/login/google')
+        return redirect('http://www.google.com')
 
 
 
