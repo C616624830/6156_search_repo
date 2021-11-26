@@ -2,6 +2,7 @@ import requests
 import json
 import middleware.context as context
 import boto3
+import os
 
 
 class NotificationMiddlewareHandler:
@@ -46,7 +47,7 @@ class NotificationMiddlewareHandler:
                 # )
                 # print("Response = ", response.status_code)
                 client = boto3.client('sns', region_name='us-east-2',
-                                      aws_access_key_id='AKIA6NSFGNTPRI6FWF73',
-                                      aws_secret_access_key= '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')
-                client.publish(TopicArn="arn:aws:sns:us-east-2:991208828127:SNS_user_changed",
+                                      aws_access_key_id=os.environ.get("AWS_ACCESS_KEY_ID", None),
+                                      aws_secret_access_key= os.environ.get("AWS_SECRET_ACCESS_KEY", None))
+                client.publish(TopicArn=os.environ.get("TOPICARN", None),
                                Message=request_data)

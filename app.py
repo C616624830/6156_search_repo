@@ -21,8 +21,8 @@ import middleware.notification as notification
 app = Flask(__name__)
 CORS(app)
 
-client_id = '976256573861-nlenqrfe3ls85fogbjneqor2fre8co1o.apps.googleusercontent.com'
-client_secret = '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'
+client_id = os.environ.get("CLIENT_ID", None)
+client_secret = os.environ.get("CLIENT_SECRET", None)
 app.secret_key = 'some secret'
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
@@ -55,8 +55,6 @@ def before_request_func():
 def after_request_func(response):
     notification.NotificationMiddlewareHandler.notify(request, response)
     return response
-
-
 
 @app.route('/test')
 def test():
@@ -467,4 +465,6 @@ def breeder_of_cat(cid):
 
 
 if __name__ == '__main__':
+    db_host = os.environ.get("DBHOST", None)
+    print(db_host)
     app.run(host="0.0.0.0", port=5000)

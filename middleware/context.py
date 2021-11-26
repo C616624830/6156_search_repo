@@ -17,8 +17,8 @@ def get_context(key):
         subscriptions = ["/breeders"]
     if smarty_info is None:
         smarty_info = {
-            "auth_id": "0312a540-9237-9638-226e-91bd46c93d61",
-            "auth_token": "oQQ3a8dvf0kSF3gvL3Rh"
+            "auth_id": os.environ.get("AUTH_ID", None),
+            "auth_token": os.environ.get("AUTH_TOKEN", None)
         }
     if key == "SMARTY":
         return smarty_info
@@ -37,12 +37,6 @@ def get_db_info():
     db_user = os.environ.get("DBUSER", None)
     db_password = os.environ.get("DBPASSWORD", None)
 
-
-    # print(db_host)
-
-    db_host = "searhbase.coy0xnvkfahm.us-east-2.rds.amazonaws.com"
-    db_user = "admin"
-    db_password = "12345678"
 
     if db_host is not None:
         db_info = {

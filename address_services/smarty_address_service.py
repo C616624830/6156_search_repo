@@ -16,8 +16,6 @@ class SmartyAddressService(BaseAddressService):
 
         auth_id = smarty_info["auth_id"]
         auth_token = smarty_info["auth_token"]
-        # auth_id = '0312a540-9237-9638-226e-91bd46c93d61'
-        # auth_token = 'oQQ3a8dvf0kSF3gvL3Rh'
 
         return auth_id, auth_token
 
