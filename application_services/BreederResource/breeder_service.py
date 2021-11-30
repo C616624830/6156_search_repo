@@ -43,3 +43,5 @@ class BreederResource(BaseApplicationResource):
         res = d_service.select_specific_column("searchbase", "breederInfo",
                                                "rating", 'id', breederid)
         return res
+
+

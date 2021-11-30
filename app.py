@@ -1,5 +1,4 @@
 from flask import *
-import database_services.RDBService as d_service
 from flask_cors import CORS
 import json
 import pymysql
@@ -10,6 +9,10 @@ from address_services.smarty_address_service import SmartyAddressService
 from flask_dance.contrib.google import make_google_blueprint, google
 import middleware.simple_security as simple_security
 import os
+import dynamo.dynamodb as db
+import copy
+import uuid
+import time
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger()
@@ -58,7 +61,13 @@ def after_request_func(response):
 
 @app.route('/test')
 def test():
-    return 'secure login'
+    res = db.get_item("searchdynamo",
+                      {
+                          "comment_id": "01cdb10e-6d9b-4b23-98bc-db062ae908ec"
+                      })
+    result = json.dumps(res, indent=4, default=str)
+    print("Result = \n", result)
+    return result
 
 @app.route('/')
 def get_index():
@@ -91,7 +100,6 @@ def view_breeder_rating_page():
 
 # request.form is for retrieving POST request data from html form
 # requeust.args is for retrieving GET request data from html form
-
 
 @app.route('/breeders', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def breeders():
@@ -261,6 +269,81 @@ def breeder_rating():
         rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
         return rsp
 
+@app.route('/comment', methods=['GET', 'POST', 'PUT', 'DELETE'])
+def comment():
+    if request.method == 'GET':
+        template = request.args.to_dict()
+        template = {k: v for k, v in template.items() if
+                    v}  # remove key-value pairs where value is empty such as 'father': ''
+
+        res = db.find_by_template('searchdynamo', template)
+        res = json.dumps(res, indent=4, default=str)
+        print("Result = \n", res)
+        return res
+
+    elif request.method == 'POST':
+        template = request.form.to_dict()
+        template = {k: v for k, v in template.items() if
+                    v}  # remove key-value pairs where value is empty such as 'father': ''
+        tags = template.get('tags')
+        print("tags", tags)
+        comment = template.get('comment')
+        print(comment)
+        email = template.get('email')
+        print(email)
+
+        res = db.add_comment("searchdynamo", email, comment, tags)
+        return res
+
+
+    elif request.method == 'PUT':
+        template = request.form.to_dict()
+        template = {k: v for k, v in template.items() if
+                    v}  # remove key-value pairs where value is empty such as 'father': ''
+        comment_id = template.get('id')
+        print("comment_id", comment_id)
+        tags = template.get('tags')
+        print("tags", tags)
+        comment = template.get('comment')
+        print("comment", comment)
+        dt = time.time()
+        dts = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(dt))
+        new_version_id = str(uuid.uuid4())
+
+        original_comment = db.get_item("searchdynamo", {"comment_id": comment_id})
+        new_comment = copy.deepcopy(original_comment)
+        new_comment["datetime"] = dts
+        new_comment["comment"] = comment
+        new_comment["tags"] = tags
+        new_comment["version_id"] = new_version_id
+
+        try:
+            res = db.write_comment_if_not_changed("searchdynamo", new_comment, original_comment)
+            print("First write returned: ", res)
+            return res
+        except Exception as e:
+            print("First write exception = ", str(e))
+            return "update exception"
+
+
+
+    elif request.method == 'DELETE':
+        template = request.form.to_dict()
+        template = {k: v for k, v in template.items() if
+                    v}  # remove key-value pairs where value is empty such as 'father': ''
+        comment_id = template.get('id')
+        print("comment_id", comment_id)
+
+        res = db.delete_item('searchdynamo', comment_id)
+        return res
+
+    # res = db.get_item("searchdynamo",
+    #                   {
+    #                       "comment_id": "01cdb10e-6d9b-4b23-98bc-db062ae908ec"
+    #                   })
+    # result = json.dumps(res, indent=4, default=str)
+    # print("Result = \n", result)
+    return None
 
 @app.route('/cats', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def cats():
@@ -451,20 +534,5 @@ def breeder_of_cat(cid):
 
 
 
-# @app.route('/imdb/artists/<prefix>')
-# def get_artists_by_prefix(prefix):
-#     res = IMDBArtistResource.get_by_name_prefix(prefix)
-#     rsp = Response(json.dumps(res), status=200, content_type="application/json")
-#     return rsp
-
-# @app.route('/<db_schema>/<table_name>/<column_name>/<prefix>')
-# def get_by_prefix(db_schema, table_name, column_name, prefix):
-#     res = d_service.get_by_prefix(db_schema, table_name, column_name, prefix)
-#     rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
-#     return rsp
-
-
 if __name__ == '__main__':
-    db_host = os.environ.get("DBHOST", None)
-    print(db_host)
     app.run(host="0.0.0.0", port=5000)

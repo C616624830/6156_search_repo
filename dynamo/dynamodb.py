@@ -4,6 +4,7 @@ import json
 from datetime import datetime
 import time
 import uuid
+import os
 
 # There is some weird stuff in DynamoDB JSON responses. These utils work better.
 # I am not using  in this example.
@@ -17,14 +18,18 @@ import uuid
 # or the environment.
 #
 dynamodb = boto3.resource('dynamodb',
-                          # aws_access_key_id=aws_access_key_id,
-                          # aws_secret_access_key=aws_secret_access_key,
-                          region_name='us-east-1')
+                          aws_access_key_id=os.environ.get("AWS_ACCESS_KEY_ID", None),
+                          aws_secret_access_key=os.environ.get("AWS_SECRET_ACCESS_KEY", None),
+                          region_name='us-east-2')
 
-other_client = boto3.client("dynamodb")
+# other_client = boto3.client("dynamodb")
 
 
 def get_item(table_name, key_value):
+    # table = dynamodb.Table(table_name)
+    # print(table.scan(
+    # ))
+
     table = dynamodb.Table(table_name)
 
     response = table.get_item(
@@ -32,6 +37,8 @@ def get_item(table_name, key_value):
     )
 
     response = response.get('Item', None)
+
+
     return response
 
 
@@ -133,7 +140,7 @@ def find_by_template(table_name, template):
     return result
 
 
-def add_comment(email, comment, tags):
+def add_comment(table_name, email, comment, tags):
     dt = time.time()
     dts = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(dt))
 
@@ -147,13 +154,13 @@ def add_comment(email, comment, tags):
         "responses": []
     }
 
-    res = put_item("comments", item=item)
+    res = put_item(table_name, item=item)
 
     return res
 
 
-def find_by_tag(tag):
-    table = dynamodb.Table("comments")
+def find_by_tag(table_name, tag):
+    table = dynamodb.Table(table_name)
 
     expressionAttributes = dict()
     expressionAttributes[":tvalue"] = tag
@@ -164,22 +171,43 @@ def find_by_tag(tag):
     return result
 
 
-def write_comment_if_not_changed(new_comment, old_comment):
-
-    new_version_id = str(uuid.uuid4())
-    new_comment["version_id"] = new_version_id
-
+def write_comment_if_not_changed(table_name, new_comment, old_comment):
+    table = dynamodb.Table(table_name)
     old_version_id = old_comment["version_id"]
 
-    table = dynamodb.Table("comments")
-
+    print("old_version_id", old_version_id)
+    print("new_version_id", new_comment["version_id"])
     res = table.put_item(
         Item=new_comment,
         ConditionExpression="version_id=:old_version_id",
         ExpressionAttributeValues={":old_version_id": old_version_id}
     )
 
+# 6a66a313-659a-4a8a-ac93-b392685cc6eb
+# 6b3b178c-fcf0-48b2-a338-5d36c8f713ec
+
+#      6b3b178c-fcf0-48b2-a338-5d36c8f713ec
+# old: 5621802b-aa6a-418f-8dcb-63e919cfb6fb
+# new: 6b3b178c-fcf0-48b2-a338-5d36c8f713ec
     return res
+
+
+def delete_item(table_name, key_value):
+    # table = dynamodb.Table(table_name)
+    # print(table.scan(
+    # ))
+
+    table = dynamodb.Table(table_name)
+    ReturnValues = "ALL_OLD" # return the old item before deleted
+    response = table.delete_item(
+        Key=key_value,
+        ReturnValues=ReturnValues
+    )
+
+    response = response.get('Item', None)
+
+    return response
+
 
 
 """
