@@ -26,7 +26,7 @@ CORS(app)
 
 # client_id = os.environ.get("CLIENT_ID", None)
 # client_secret = os.environ.get("CLIENT_SECRET", None)
-# app.secret_key = 'some secret'
+app.secret_key = 'some secret'
 #
 # os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 # os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
