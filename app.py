@@ -61,6 +61,7 @@ def before_request_func():
 def login_check():
     if (request.method == 'POST'):
         data = request.get_json()
+        print("hello world")
         print("data", data)
         session["id_token"] = data.get("id_token")
         session["Email"] = data.get("Email")
