@@ -57,16 +57,21 @@ def before_request_func():
     # print("flag0")
     return Response(simple_security.check_security(session, request))
 
-@app.route('/login_check')
+@app.route('/login_check', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def login_check():
     if (request.method == 'POST'):
         data = request.get_json()
-        session["id_token"] = data["id_token"]
-        session["Email"] = data["Email"]
+        session["id_token"] = data.get("id_token")
+        session["Email"] = data.get("Email")
         print("session[id_token]: ", session["id_token"])
         print("session[Email]: ", data["Email"])
-        return Response(json.dumps({"code": "200", "message": "good"}),
-     content_type="application/json")
+        if (session["id_token"] != None and session["Email"] != None):
+            return Response(json.dumps({"code": "200", "message": "good"}),
+                            content_type="application/json")
+        else:
+            return Response(json.dumps({"code": "300", "message": "No id_token and email"}),
+                        content_type="application/json")
+
     else:
         return Response(json.dumps({"code": "300", "message": "Not post request"}),
                         content_type="application/json")
