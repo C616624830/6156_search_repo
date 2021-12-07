@@ -24,35 +24,47 @@ import middleware.notification as notification
 app = Flask(__name__)
 CORS(app)
 
-client_id = os.environ.get("CLIENT_ID", None)
-client_secret = os.environ.get("CLIENT_SECRET", None)
-app.secret_key = 'some secret'
-
-os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
-os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
-
-blueprint = make_google_blueprint(
-    client_id=client_id,
-    client_secret=client_secret,
-    reprompt_consent=True,
-    scope=["profile", "email"],
-    offline = True
-)
-app.register_blueprint(blueprint, url_prefix="/login")
-
-g_bp = app.blueprints.get("google")
+# client_id = os.environ.get("CLIENT_ID", None)
+# client_secret = os.environ.get("CLIENT_SECRET", None)
+# app.secret_key = 'some secret'
+#
+# os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+# os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
+#
+# blueprint = make_google_blueprint(
+#     client_id=client_id,
+#     client_secret=client_secret,
+#     reprompt_consent=True,
+#     scope=["profile", "email"],
+#     offline = True
+# )
+# app.register_blueprint(blueprint, url_prefix="/login")
+#
+# g_bp = app.blueprints.get("google")
+#
+# @app.before_request
+# def before_request_func():
+#     # print("flag0")
+#     result_ok = simple_security.check_security(request, google, g_bp)
+#     # print("flag3")
+#     if not result_ok:
+#         print('flag4')
+#         # print(url_for('/'))
+#         return redirect(url_for('google.login'))
 
 @app.before_request
 def before_request_func():
     # print("flag0")
-    result_ok = simple_security.check_security(request, google, g_bp)
-    # print("flag3")
-    if not result_ok:
-        print('flag4')
-        # print(url_for('/'))
-        return redirect(url_for('google.login'))
+    return simple_security.check_security(session, request)
 
-
+@app.route('/login_check')
+def login_check():
+    data = request.get_json()
+    session["id_token"] = data["id_token"]
+    session["email"] = data["email"]
+    print("session[id_token]: ", session["id_token"])
+    print("session[email]: ", data["email"])
+    return 200
 
 @app.after_request
 def after_request_func(response):
