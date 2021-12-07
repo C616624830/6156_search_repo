@@ -26,7 +26,6 @@ CORS(app)
 
 # client_id = os.environ.get("CLIENT_ID", None)
 # client_secret = os.environ.get("CLIENT_SECRET", None)
-app.secret_key = 'some secret'
 #
 # os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 # os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
@@ -52,16 +51,28 @@ app.secret_key = 'some secret'
 #         # print(url_for('/'))
 #         return redirect(url_for('google.login'))
 
-# @app.before_request
-# def before_request_func():
-#     # print("flag0")
-#     return Response(simple_security.check_security(session, request))
+@app.before_request
+def before_request_func():
+    # print("flag0")
 
+    n = simple_security.check_security(session, request)
+    if (n == 1):
+        return Response(json.dumps({"code": "300", "message": "no record of token_id or email exists in the service"}))
+
+    # n = simple_security.check_security(session, request)
+    # if (n == 1):
+    #     return Response(json.dumps({"code": "300", "message": "no record of token_id or email exists in the service"}))
+    # elif (n == 2):
+    #     return redirect(request.path)
+    # else:
+    #     return redirect(request.path)
+
+
+app.secret_key = 'some secret'
 @app.route('/login_check', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def login_check():
     if (request.method == 'POST'):
         data = request.get_json()
-        print("hello world")
         print("data", data)
         session["id_token"] = data.get("id_token")
         session["Email"] = data.get("Email")
