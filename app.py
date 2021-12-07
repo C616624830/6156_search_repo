@@ -51,7 +51,7 @@ CORS(app)
 #         # print(url_for('/'))
 #         return redirect(url_for('google.login'))
 
-@app.before_request()
+@app.before_request
 def before_request_func():
     print("flag0")
     n = simple_security.check_security(db, request)
