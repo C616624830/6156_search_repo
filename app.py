@@ -52,10 +52,10 @@ CORS(app)
 #         # print(url_for('/'))
 #         return redirect(url_for('google.login'))
 
-@app.before_request
-def before_request_func():
-    # print("flag0")
-    return Response(simple_security.check_security(session, request))
+# @app.before_request
+# def before_request_func():
+#     # print("flag0")
+#     return Response(simple_security.check_security(session, request))
 
 @app.route('/login_check', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def login_check():

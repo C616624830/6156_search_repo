@@ -1,16 +1,13 @@
 import json
 
-insecure_paths = ['login_check']
+insecure_paths = ['/login_check']
 
 def check_security(session, request):
-
     path = request.path
-    data = request.get_json()
-    id_token = data["id_token"]
-    Email = data["Email"]
-
     if path not in insecure_paths:
-
+        data = request.get_json()
+        id_token = data["id_token"]
+        Email = data["Email"]
         # print("flag1")
 
         if (id_token!=session.get("id_token") or Email!=session.get("Email")):
