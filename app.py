@@ -53,19 +53,12 @@ CORS(app)
 
 @app.before_request
 def before_request_func():
-    # print("flag0")
-
+    print("flag0")
     n = simple_security.check_security(session, request)
     if (n == 1):
         return Response(json.dumps({"code": "300", "message": "no record of token_id or email exists in the service"}))
-
-    # n = simple_security.check_security(session, request)
-    # if (n == 1):
-    #     return Response(json.dumps({"code": "300", "message": "no record of token_id or email exists in the service"}))
-    # elif (n == 2):
-    #     return redirect(request.path)
     # else:
-    #     return redirect(request.path)
+    #     return Response(json.dumps({"code": "200", "message": "good"}))
 
 
 app.secret_key = 'some secret'
@@ -73,7 +66,9 @@ app.secret_key = 'some secret'
 def login_check():
     if (request.method == 'POST'):
         data = request.get_json()
-        print("data", data)
+        if (data == None):
+            return Response(json.dumps({"code": "300", "message": "No id_token and email"}),
+                        content_type="application/json")
         session["id_token"] = data.get("id_token")
         session["Email"] = data.get("Email")
         print("session[id_token]: ", session["id_token"])
@@ -84,7 +79,6 @@ def login_check():
         else:
             return Response(json.dumps({"code": "300", "message": "No id_token and email"}),
                         content_type="application/json")
-
     else:
         return Response(json.dumps({"code": "300", "message": "Not post request"}),
                         content_type="application/json")
