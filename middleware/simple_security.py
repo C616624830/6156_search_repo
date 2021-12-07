@@ -5,7 +5,7 @@ insecure_paths = ['/login_check']
 def check_security(db, request):
     path = request.path
     if path not in insecure_paths:
-        print("path: ", path)
+        print("request: ", request)
         data = request.get_json()
         if (data == None or data.get("Email") == None or data.get("id_token") == None):
             print("access service without token")
