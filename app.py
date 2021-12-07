@@ -54,7 +54,7 @@ CORS(app)
 @app.before_request
 def before_request_func():
     print("flag0")
-    n = simple_security.check_security(session, request)
+    n = simple_security.check_security(db, request)
     if (n == 1):
         return Response(json.dumps({"code": "300", "message": "no record of token_id or email exists in the service"}))
     # else:
@@ -66,22 +66,32 @@ app.secret_key = 'some secret'
 def login_check():
     if (request.method == 'POST'):
         data = request.get_json()
-        if (data == None):
+        if (data == None or data.get("id_token") == None or data.get("Email") == None):
             return Response(json.dumps({"code": "300", "message": "No id_token and email"}),
                         content_type="application/json")
-        session["id_token"] = data.get("id_token")
-        session["Email"] = data.get("Email")
-        print("session[id_token]: ", session["id_token"])
-        print("session[Email]: ", data["Email"])
-        if (session["id_token"] != None and session["Email"] != None):
-            return Response(json.dumps({"code": "200", "message": "good"}),
-                            content_type="application/json")
-        else:
-            return Response(json.dumps({"code": "300", "message": "No id_token and email"}),
+        id_token = data.get("id_token")
+        Email = data.get("Email")
+        print("id_token: ", id_token)
+        print("Email: ", Email)
+        db.add_token("tokendynamo", id_token, Email)
+        return Response(json.dumps({"code": "200", "message": "good"}),
                         content_type="application/json")
     else:
         return Response(json.dumps({"code": "300", "message": "Not post request"}),
                         content_type="application/json")
+
+@app.route('/login_out', methods=['GET', 'POST', 'PUT', 'DELETE'])
+def log_out():
+    if (request.method == 'POST'):
+        data = request.get_json()
+        if (data == None or data.get("id_token") == None or data.get("Email") == None):
+            return Response(json.dumps({"code": "300", "message": "No id_token and email"}),
+                            content_type="application/json")
+        res = db.delete_item('tokendynamo', {"id_token": data.get("id_token")})
+        print("log_out_res: ", res)
+        return "good"
+
+
 
 @app.after_request
 def after_request_func(response):

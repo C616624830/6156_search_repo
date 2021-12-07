@@ -2,22 +2,29 @@ import json
 
 insecure_paths = ['/login_check']
 
-def check_security(session, request):
+def check_security(db, request):
     path = request.path
-    print("path: ", path)
     if path not in insecure_paths:
+        print("path: ", path)
         data = request.get_json()
-        print("session_id_token: ", session.get("id_token"))
-        print("session_Email: ", session.get("Email"))
-        if (data == None):
+        if (data == None or data.get("id_token") == None or data.get("Email") == None):
             return 1
         id_token = data.get("id_token")
         Email = data.get("Email")
         print("flag1")
-        if (id_token!=session.get("id_token") or Email!=session.get("Email")):
-            return 1
-        else:
+
+        res = db.find_by_template("tokendynamo", {"id_token":id_token, "Email":Email})
+        print("tokendb_res: ", res)
+        flag = 0
+        for e in res:
+            if (e.get('id_token') == id_token and e.get('Email') == Email):
+                flag = 1
+        if (flag == 1):
+            print("Found token")
             return 2
+        else:
+            print("No token Found")
+            return 1
     else:
         return 3
 

@@ -133,11 +133,12 @@ def find_by_template(table_name, template):
     ea = {':{}'.format(k):v for k, v in template.items()}
 
     tbl = dynamodb.Table(table_name)
-    result = tbl.scan(
+    response = tbl.scan(
         FilterExpression=fe,
         ExpressionAttributeValues=ea
     )
-    return result
+    response = response.get('Items', None)
+    return response
 
 
 def add_comment(table_name, email, comment, tags):
@@ -152,6 +153,17 @@ def add_comment(table_name, email, comment, tags):
         "tags": tags,
         "datetime": dts,
         "responses": []
+    }
+
+    res = put_item(table_name, item=item)
+
+    return res
+
+def add_token(table_name, id_token, Email):
+
+    item = {
+        "id_token": id_token,
+        "Email": Email
     }
 
     res = put_item(table_name, item=item)
