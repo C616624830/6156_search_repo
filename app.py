@@ -55,16 +55,21 @@ CORS(app)
 @app.before_request
 def before_request_func():
     # print("flag0")
-    return simple_security.check_security(session, request)
+    return Response(simple_security.check_security(session, request))
 
 @app.route('/login_check')
 def login_check():
-    data = request.get_json()
-    session["id_token"] = data["id_token"]
-    session["email"] = data["email"]
-    print("session[id_token]: ", session["id_token"])
-    print("session[email]: ", data["email"])
-    return 200
+    if (request.method == 'POST'):
+        data = request.get_json()
+        session["id_token"] = data["id_token"]
+        session["Email"] = data["Email"]
+        print("session[id_token]: ", session["id_token"])
+        print("session[Email]: ", data["Email"])
+        return Response(json.dumps({"code": "200", "message": "good"}),
+     content_type="application/json")
+    else:
+        return Response(json.dumps({"code": "300", "message": "Not post request"}),
+                        content_type="application/json")
 
 @app.after_request
 def after_request_func(response):

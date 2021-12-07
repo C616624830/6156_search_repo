@@ -7,19 +7,19 @@ def check_security(session, request):
     path = request.path
     data = request.get_json()
     id_token = data["id_token"]
-    email = data["email"]
+    Email = data["Email"]
 
     if path not in insecure_paths:
 
         # print("flag1")
 
-        if (id_token!=session.get("id_token") or email!=session.get("email")):
-            return 300
+        if (id_token!=session.get("id_token") or Email!=session.get("Email")):
+            return json.dumps({"code": "300", "message": "no record of token_id or email exists in the service"})
         else:
-            return 200
+            return json.dumps({"code": "200", "message": "found record"})
 
     else:
-        return 200
+        return json.dumps({"code": "200", "message": "insecure path"})
 
 
 # insecure_paths = ['/login/google', '/login/google/authorized']
