@@ -183,12 +183,6 @@ def write_comment_if_not_changed(table_name, new_comment, old_comment):
         ExpressionAttributeValues={":old_version_id": old_version_id}
     )
 
-# 6a66a313-659a-4a8a-ac93-b392685cc6eb
-# 6b3b178c-fcf0-48b2-a338-5d36c8f713ec
-
-#      6b3b178c-fcf0-48b2-a338-5d36c8f713ec
-# old: 5621802b-aa6a-418f-8dcb-63e919cfb6fb
-# new: 6b3b178c-fcf0-48b2-a338-5d36c8f713ec
     return res
 
 

@@ -42,15 +42,15 @@ app.register_blueprint(blueprint, url_prefix="/login")
 
 g_bp = app.blueprints.get("google")
 
-@app.before_request
-def before_request_func():
-    # print("flag0")
-    result_ok = simple_security.check_security(request, google, g_bp)
-    # print("flag3")
-    if not result_ok:
-        print('flag4')
-        # print(url_for('/'))
-        return redirect(url_for('google.login'))
+# @app.before_request
+# def before_request_func():
+#     # print("flag0")
+#     result_ok = simple_security.check_security(request, google, g_bp)
+#     # print("flag3")
+#     if not result_ok:
+#         print('flag4')
+#         # print(url_for('/'))
+#         return redirect(url_for('google.login'))
 
 
 
@@ -301,6 +301,7 @@ def comment():
         template = {k: v for k, v in template.items() if
                     v}  # remove key-value pairs where value is empty such as 'father': ''
         comment_id = template.get('id')
+        print(type(comment_id), comment_id)
         print("comment_id", comment_id)
         tags = template.get('tags')
         print("tags", tags)
@@ -311,6 +312,9 @@ def comment():
         new_version_id = str(uuid.uuid4())
 
         original_comment = db.get_item("searchdynamo", {"comment_id": comment_id})
+
+        print(original_comment)
+
         new_comment = copy.deepcopy(original_comment)
         new_comment["datetime"] = dts
         new_comment["comment"] = comment
