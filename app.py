@@ -57,8 +57,6 @@ def before_request_func():
     n = simple_security.check_security(db, request)
     if (n == 1):
         return Response(json.dumps({"code": "300", "message": "no record of token_id or email exists in the service"}))
-    # else:
-    #     return Response(json.dumps({"code": "200", "message": "good"}))
 
 
 app.secret_key = 'some secret'
@@ -66,28 +64,28 @@ app.secret_key = 'some secret'
 def login_check():
     if (request.method == 'POST'):
         data = request.get_json()
-        if (data == None or data.get("id_token") == None or data.get("Email") == None):
+        if (data == None or data.get("Email") == None or data.get("id_token") == None):
             return Response(json.dumps({"code": "300", "message": "No id_token and email"}),
                         content_type="application/json")
-        id_token = data.get("id_token")
         Email = data.get("Email")
-        print("id_token: ", id_token)
+        id_token = data.get("id_token")
         print("Email: ", Email)
-        db.add_token("tokendynamo", id_token, Email)
+        print("id_token: ", id_token)
+        db.add_token("logindynamo", Email, id_token)
         return Response(json.dumps({"code": "200", "message": "good"}),
                         content_type="application/json")
     else:
         return Response(json.dumps({"code": "300", "message": "Not post request"}),
                         content_type="application/json")
 
-@app.route('/login_out', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@app.route('/log_out', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def log_out():
     if (request.method == 'POST'):
         data = request.get_json()
-        if (data == None or data.get("id_token") == None or data.get("Email") == None):
+        if (data == None or data.get("Email") == None or data.get("id_token") == None):
             return Response(json.dumps({"code": "300", "message": "No id_token and email"}),
                             content_type="application/json")
-        res = db.delete_item('tokendynamo', {"id_token": data.get("id_token")})
+        res = db.delete_item('logindynamo', {"Email": data.get("Email")})
         print("log_out_res: ", res)
         return "good"
 

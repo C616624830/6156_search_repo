@@ -159,11 +159,11 @@ def add_comment(table_name, email, comment, tags):
 
     return res
 
-def add_token(table_name, id_token, Email):
+def add_token(table_name, Email, id_token):
 
     item = {
-        "id_token": id_token,
-        "Email": Email
+        "Email": Email,
+        "id_token": id_token
     }
 
     res = put_item(table_name, item=item)

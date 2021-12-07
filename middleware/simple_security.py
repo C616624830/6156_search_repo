@@ -7,17 +7,18 @@ def check_security(db, request):
     if path not in insecure_paths:
         print("path: ", path)
         data = request.get_json()
-        if (data == None or data.get("id_token") == None or data.get("Email") == None):
+        if (data == None or data.get("Email") == None or data.get("id_token") == None):
             return 1
-        id_token = data.get("id_token")
         Email = data.get("Email")
+        id_token = data.get("id_token")
         print("flag1")
-
-        res = db.find_by_template("tokendynamo", {"id_token":id_token, "Email":Email})
+        print("Email: ", Email)
+        print("id_token: ", id_token)
+        res = db.find_by_template("logindynamo", {"Email":Email, "id_token":id_token})
         print("tokendb_res: ", res)
         flag = 0
         for e in res:
-            if (e.get('id_token') == id_token and e.get('Email') == Email):
+            if (e.get('Email') == Email and e.get('id_token') == id_token):
                 flag = 1
         if (flag == 1):
             print("Found token")
