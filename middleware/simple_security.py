@@ -8,6 +8,7 @@ def check_security(db, request):
         print("path: ", path)
         data = request.get_json()
         if (data == None or data.get("Email") == None or data.get("id_token") == None):
+            print("access service without token")
             return 1
         Email = data.get("Email")
         id_token = data.get("id_token")
