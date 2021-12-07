@@ -4,6 +4,7 @@ insecure_paths = ['/login_check']
 
 def check_security(session, request):
     path = request.path
+    print("path: ", path)
     if path not in insecure_paths:
         data = request.get_json()
         print("session_id_token: ", session.get("id_token"))
