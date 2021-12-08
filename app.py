@@ -63,12 +63,12 @@ app.secret_key = 'some secret'
 @app.route('/login_check', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def login_check():
     if (request.method == 'POST'):
-        data = request.get_json()
-        if (data == None or data.get("Email") == None or data.get("id_token") == None):
+        print(request.headers)
+        if (request.headers.get("Email") == None or request.headers.get("id_token") == None):
             return Response(json.dumps({"code": "300", "message": "No id_token and email"}),
                         content_type="application/json")
-        Email = data.get("Email")
-        id_token = data.get("id_token")
+        Email = request.headers.get("Email")
+        id_token = request.headers.get("id_token")
         print("Email: ", Email)
         print("id_token: ", id_token)
         db.add_token("logindynamo", Email, id_token)
@@ -81,11 +81,11 @@ def login_check():
 @app.route('/log_out', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def log_out():
     if (request.method == 'POST'):
-        data = request.get_json()
-        if (data == None or data.get("Email") == None or data.get("id_token") == None):
+        print(request.headers)
+        if (request.headers.get("Email") == None or request.headers.get("id_token") == None):
             return Response(json.dumps({"code": "300", "message": "No id_token and email"}),
                             content_type="application/json")
-        res = db.delete_item('logindynamo', {"Email": data.get("Email")})
+        res = db.delete_item('logindynamo', {"Email": request.headers.get("Email")})
         print("log_out_res: ", res)
         return "good"
 

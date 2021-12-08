@@ -8,12 +8,11 @@ def check_security(db, request):
         print("request.header: ", request.headers)
         print("request.args: ", request.args)
         print("request: ", request)
-        data = request.get_json()
-        if (data == None or data.get("Email") == None or data.get("id_token") == None):
+        if (request.headers.get("Email") == None or request.headers.get("id_token")):
             print("access service without token")
             return 1
-        Email = data.get("Email")
-        id_token = data.get("id_token")
+        Email = request.headers.get("Email")
+        id_token = request.headers.get("id_token")
         print("flag1")
         print("Email: ", Email)
         print("id_token: ", id_token)
