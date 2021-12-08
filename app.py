@@ -70,7 +70,7 @@ def login_check():
         Email = request.headers.get("Email")
         id_token = request.headers.get("id_token")
         print("Email: ", Email)
-        print("id_token: ", id_token)
+        # print("id_token: ", id_token)
         db.add_token("logindynamo", Email, id_token)
         return Response(json.dumps({"code": "200", "message": "good"}),
                         content_type="application/json")
