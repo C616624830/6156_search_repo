@@ -5,6 +5,8 @@ insecure_paths = ['/login_check']
 def check_security(db, request):
     path = request.path
     if path not in insecure_paths:
+        print("request.header: ", request.header)
+        print("request.args: ", request.args)
         print("request: ", request)
         data = request.get_json()
         if (data == None or data.get("Email") == None or data.get("id_token") == None):

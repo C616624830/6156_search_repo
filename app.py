@@ -96,15 +96,9 @@ def after_request_func(response):
     notification.NotificationMiddlewareHandler.notify(request, response)
     return response
 
-@app.route('/test')
+@app.route('/test', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def test():
-    res = db.get_item("searchdynamo",
-                      {
-                          "comment_id": "01cdb10e-6d9b-4b23-98bc-db062ae908ec"
-                      })
-    result = json.dumps(res, indent=4, default=str)
-    print("Result = \n", result)
-    return result
+    return
 
 @app.route('/')
 def get_index():
