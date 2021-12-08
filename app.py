@@ -63,7 +63,7 @@ app.secret_key = 'some secret'
 @app.route('/login_check', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def login_check():
     if (request.method == 'POST'):
-        print(request.headers)
+        print(request.headers.get("Email"))
         if (request.headers.get("Email") == None or request.headers.get("id_token") == None):
             return Response(json.dumps({"code": "300", "message": "No id_token and email"}),
                         content_type="application/json")
