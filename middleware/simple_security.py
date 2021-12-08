@@ -17,7 +17,7 @@ def check_security(db, request):
         print("Email: ", Email)
         # print("id_token: ", id_token)
         res = db.find_by_template("logindynamo", {"Email":Email, "id_token":id_token})
-        print("tokendb_res: ", res)
+        # print("tokendb_res: ", res)
         flag = 0
         for e in res:
             if (e.get('Email') == Email and e.get('id_token') == id_token):
