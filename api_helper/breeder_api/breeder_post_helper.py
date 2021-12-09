@@ -17,11 +17,12 @@ def ret(request):
         return ret_message("no post data", "300")
 
 
-    id = template.get('id')
-    address = template.get('address')
 
-    if (SmartyAddressService.do_lookup(address) == False):
-        return ret_message("400", "invalid address")
+    # address = template.get('address')
+    # if (SmartyAddressService.do_lookup(address) == False):
+    #     return ret_message("400", "invalid address")
+
+    id = template.get('id')
     try:
         if BreederResource.check_breeder_id_exist(id):
             return ret_message("422", "id already exist")
