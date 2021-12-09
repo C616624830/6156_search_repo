@@ -8,8 +8,6 @@ def ret(request):
     template = {k: v for k, v in template.items() if
                 v}  # remove key-value pairs where value is empty such as 'father': ''
 
-    if not template:
-        return ret_message("no get data", "300")
 
     limit = template.get('limit')
     offset = template.get('offset')
