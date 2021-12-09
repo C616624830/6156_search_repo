@@ -5,11 +5,10 @@ Drop table if exists catInfo;
 Drop table if exists breederInfo;
 
 CREATE TABLE `breederInfo` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` varchar(100) NOT NULL,
   `name` varchar(100) NOT NULL,
   `organization` varchar(100) NOT NULL,
   `phone` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
   `address` varchar(200) NOT NULL,
   `website` varchar(100) NOT NULL,
   `rating` decimal(2,1) NOT NULL,
@@ -26,7 +25,7 @@ CREATE TABLE `catInfo` (
   `dob` datetime NOT NULL,
   `father` int DEFAULT NULL,
   `mother` int DEFAULT NULL,
-  `breeder` int NOT NULL,
+  `breeder` varchar(100) NOT NULL,
   `listing_price` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idCat_UNIQUE` (`id`),
@@ -35,5 +34,5 @@ CREATE TABLE `catInfo` (
   CONSTRAINT FK_mother FOREIGN KEY (mother) REFERENCES catInfo(id) ON DELETE SET NULL
 );
 
-INSERT INTO breederInfo ( id, name, organization, phone, email, address, website, rating) VALUES ( 1,'Tom Hanks','TICA','+19176211078','sw@gmail.com','33 brooklyn steet, New York City','www.tomcat.com', 5 );
-INSERT INTO catInfo ( id, name, race, color, dob, father, mother, breeder, listing_price) VALUES ( 1,'Alpha','Rugdoll','bicolor','2021-02-03','0', '0',1, 500);
+INSERT INTO breederInfo ( id, name, organization, phone, email, address, website, rating) VALUES ('sw@qq.com','Tom Hanks','TICA','+19176211078','33 brooklyn steet, New York City','www.tomcat.com', 5 );
+INSERT INTO catInfo ( id, name, race, color, dob, father, mother, breeder, listing_price) VALUES ( 1,'Alpha','Rugdoll','bicolor','2021-02-03','0', '0','sw@qq.com', 500);
