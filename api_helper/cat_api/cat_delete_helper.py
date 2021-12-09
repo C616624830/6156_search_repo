@@ -3,12 +3,18 @@ import pymysql
 from api_helper.utility import ret_message
 
 def ret(request):
-    template = request.args.to_dict()
-    print(template)
-    id = template.get('id', None)
-    print("id", id)
+    print("request.args.to_dict(): ", request.args.to_dict())
+    print("request.get_json(): ", request.get_json())
 
-    res = None
+    template = request.args.to_dict()
+    if not template:
+        template = request.get_json()
+
+    if not template:
+        return ret_message("no delete data", "300")
+
+    id = template.get('id')
+
     try:
         if not id.isdigit() or int(id) <= 0:
             return ret_message("400", "id in wrong format")

@@ -2,22 +2,26 @@ from application_services.BreederResource.breeder_service import BreederResource
 import pymysql
 from api_helper.utility import ret_message
 
-
 def ret(request):
-    if request.method == 'DELETE':
-        template = request.args.to_dict()
-        # print(template)
-        id = template.get('id', None)
-        # print("id", id)
+    print("request.args.to_dict(): ", request.args.to_dict())
+    print("request.get_json(): ", request.get_json())
 
-        res = None
-        try:
-            if not BreederResource.check_breeder_id_exist(id):
-                return ret_message("201", "id does not exist")
-            res = BreederResource.delete_breeder(id)
+    template = request.args.to_dict()
+    if not template:
+        template = request.get_json()
 
-        except pymysql.err.OperationalError as e:
-            print(f"error: {e}")
-            return ret_message("500", "Internal Server Error")
+    if not template:
+        return ret_message("no delete info", "300")
 
-        return ret_message("204", res)
+    id = template.get('id')
+
+    try:
+        if not BreederResource.check_breeder_id_exist(id):
+            return ret_message("201", "id does not exist")
+        res = BreederResource.delete_breeder(id)
+
+    except pymysql.err.OperationalError as e:
+        print(f"error: {e}")
+        return ret_message("500", "Internal Server Error")
+
+    return ret_message("204", res)
