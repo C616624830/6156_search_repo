@@ -11,7 +11,7 @@ def ret(request):
         template = request.get_json()
 
     template = {k: v for k, v in template.items() if
-                v and k != 'id'}  # remove key-value pairs where value is empty such as 'father': ''
+                v}  # remove key-value pairs where value is empty such as 'father': ''
 
     if not template:
         return ret_message("no post data", "300")

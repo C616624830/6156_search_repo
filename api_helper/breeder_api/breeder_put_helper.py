@@ -10,13 +10,13 @@ def ret(request):
     if not template:
         template = request.get_json()
 
-    template = {k: v for k, v in template.items() if
-                v and k != 'id'}  # remove key-value pairs where value is empty such as 'father': ''
-
     if not template:
         return ret_message("no put data", "300")
 
     id = template.get('id')
+
+    template = {k: v for k, v in template.items() if
+                v and k != 'id'}  # remove key-value pairs where value is empty such as 'father': ''
 
     try:
         if not BreederResource.check_breeder_id_exist(id):
