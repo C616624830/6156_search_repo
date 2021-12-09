@@ -29,16 +29,13 @@ def select_specific_column(db_schema, table_name, column_name, targeted_row, val
     cur = conn.cursor()
 
     sql = "select " + column_name +" from " + db_schema + "." + table_name + " where " + \
-        targeted_row + " = " + value
+        targeted_row + " = " + '\'' + value + '\''
     print("SQL Statement = " + cur.mogrify(sql, None))
 
     res = cur.execute(sql)
     res = cur.fetchall()
 
     conn.close()
-    # print("res: ")
-    # print(res)
-    # print("..")
     return res
 
 
