@@ -48,7 +48,7 @@ def insert_by_template(db_schema, table_name, template, field_list):
     cur = conn.cursor()
 
     clause,args = _insert_clause_args(template)
-    
+
     print("template: ", template)
     sql = "INSERT INTO " + db_schema + "." + table_name + clause
 

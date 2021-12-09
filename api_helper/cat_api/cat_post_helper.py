@@ -4,7 +4,8 @@ import pymysql
 from api_helper.utility import ret_message
 
 def ret(request):
-    # print(request.form.to_dict())
+    print("request.form.to_dict(): ", request.form.to_dict())
+    print("request.get_json(): ", request.get_json())
     template = request.form.to_dict()
     template = {k: v for k, v in template.items() if
                 v}  # remove key-value pairs where value is empty such as 'father': ''
