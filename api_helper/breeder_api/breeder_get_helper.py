@@ -57,4 +57,4 @@ def ret(request):
              {"rel": "prev", "href": prev_path}]
 
     ret = {"data": res, "links": links}
-    return ret_message("500", ret)
+    return ret_message("200", ret)
