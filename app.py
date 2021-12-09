@@ -60,7 +60,7 @@ def breeders():
         return breeder_put_helper.ret(request)
 
 @app.route('/getcats', methods=['GET'])
-def get_breeders():
+def get_cats():
     return cat_get_helper.ret(request)
 
 @app.route('/cats', methods=['GET', 'POST', 'PUT', 'DELETE'])
