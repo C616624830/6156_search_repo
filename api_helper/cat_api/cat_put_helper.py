@@ -26,7 +26,7 @@ def ret(request):
             return ret_message("400", "id in wrong format")
         elif not CatResource.check_cat_id_exist(id):
             return ret_message("422", "id does not exist")
-        elif not BreederResource.check_breeder_id_exist(breeder):
+        elif CatResource.get_cats({'id': id}, None)[0].get("breeder") != breeder:
             return ret_message("422", "you are not the breeder of this cat")
 
         res = CatResource.put_cat(id, template)
