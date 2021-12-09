@@ -2,21 +2,20 @@ from application_services.BreederResource.breeder_service import BreederResource
 import pymysql
 from api_helper.utility import ret_message
 from address_services.smarty_address_service import SmartyAddressService
-
+# user  can sign up a breeder account using another email
 def ret(request):
     print("request.form.to_dict(): ", request.form.to_dict())
     print("request.get_json(): ", request.get_json())
-    print("request.headers.get('Email'): ", request.headers.get('Email'))
 
     template = request.args.to_dict()
     if not template:
         template = request.get_json()
 
+    if (not template or template.get('id') == None):
+        return ret_message("your provided info is not enough to sign up breeder", "422")
+
     template = {k: v for k, v in template.items() if
                 v}  # remove key-value pairs where value is empty such as 'father': ''
-
-    if not template:
-        return ret_message("your provided info is not enough to sign up breeder", "422")
 
 
 
@@ -26,8 +25,7 @@ def ret(request):
 
 
     try:
-        id = request.headers.get('Email')
-        template['id'] = id
+        id = template.get('Email')
         if BreederResource.check_breeder_id_exist(id):
             return ret_message("422", "this email has already been signed up")
 
