@@ -35,4 +35,4 @@ def ret(request):
 
     # rsp = Response(json.dumps(res, default=str), status=201, content_type="application/json")
     # rsp.headers['location'] = '/breeders'
-    return ret_message("201", res, {'location': 'breeders'})
+    return ret_message("201", res, {'location': '/breeders'})
