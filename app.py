@@ -317,7 +317,7 @@ def cats():
         # rsp = Response(json.dumps(ret, default=str), status=200, content_type="application/json")
         # return rsp
 
-        return Response(json.dumps({"status": "200", "message": ret}))
+        return Response(json.dumps({"status": "200", "message": json.dumps(ret, default=str)}))
 ####GET START
 
 
