@@ -12,3 +12,7 @@ flask-dance[sqla]
 flask-sqlalchemy
 blinker
 smartystreets-python-sdk==4.10.2
+google-auth==2.3.3
+flask_session==0.4.0
+flask_paginate==2021.10.29
+flask_dance==5.1.0
