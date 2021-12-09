@@ -4,8 +4,10 @@ from api_helper.utility import ret_message
 from address_services.smarty_address_service import SmartyAddressService
 
 def ret(request):
-    print("request.args.to_dict(): ", request.args.to_dict())
+    print("request.form.to_dict(): ", request.form.to_dict())
     print("request.get_json(): ", request.get_json())
+    print("request.headers.get('Email'): ", request.headers.get('Email'))
+
     template = request.args.to_dict()
     if not template:
         template = request.get_json()
@@ -14,7 +16,7 @@ def ret(request):
                 v}  # remove key-value pairs where value is empty such as 'father': ''
 
     if not template:
-        return ret_message("no post data", "300")
+        return ret_message("your provided info is not enough to sign up breeder", "422")
 
 
 
@@ -22,10 +24,12 @@ def ret(request):
     # if (SmartyAddressService.do_lookup(address) == False):
     #     return ret_message("400", "invalid address")
 
-    id = template.get('id')
+
     try:
+        id = request.headers.get('Email')
+        template['id'] = id
         if BreederResource.check_breeder_id_exist(id):
-            return ret_message("422", "id already exist")
+            return ret_message("422", "this email has already been signed up")
 
         res = BreederResource.post_breeder(template)
 

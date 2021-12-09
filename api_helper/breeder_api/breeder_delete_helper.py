@@ -3,21 +3,12 @@ import pymysql
 from api_helper.utility import ret_message
 
 def ret(request):
-    print("request.args.to_dict(): ", request.args.to_dict())
-    print("request.get_json(): ", request.get_json())
-
-    template = request.args.to_dict()
-    if not template:
-        template = request.get_json()
-
-    if not template:
-        return ret_message("no delete info", "300")
-
-    id = template.get('id')
+    print("request.headers.get('Email'): ", request.headers.get('Email'))
+    id = request.headers.get('Email')
 
     try:
         if not BreederResource.check_breeder_id_exist(id):
-            return ret_message("201", "id does not exist")
+            return ret_message("422", "your email does not exist, go add breeder")
         res = BreederResource.delete_breeder(id)
 
     except pymysql.err.OperationalError as e:

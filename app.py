@@ -46,22 +46,26 @@ def after_request_func(response):
 # request.form or request.get_json is for retrieving POST request data from html form
 # requeust.args is for retrieving GET request data from html form
 
+@app.route('/getbreeders', methods=['GET'])
+def get_breeders():
+    return breeder_get_helper.ret(request)
+
 @app.route('/breeders', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def breeders():
-    if request.method == 'GET':
-       return breeder_get_helper.ret(request)
-    elif request.method == 'POST':
+    if request.method == 'POST':
         return breeder_post_helper.ret(request)
     elif request.method == 'DELETE':
         return breeder_delete_helper.ret(request)
     elif request.method == 'PUT':
         return breeder_put_helper.ret(request)
 
+@app.route('/getcats', methods=['GET'])
+def get_breeders():
+    return cat_get_helper.ret(request)
+
 @app.route('/cats', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def cats():
-    if request.method == 'GET':
-        return cat_get_helper.ret(request)
-    elif request.method == 'POST':
+    if request.method == 'POST':
         return cat_post_helper.ret(request)
     elif request.method == 'DELETE':
         return cat_delete_helper.ret(request)

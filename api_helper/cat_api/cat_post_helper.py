@@ -4,19 +4,28 @@ import pymysql
 from api_helper.utility import ret_message
 
 def ret(request):
-    print("request.args.to_dict(): ", request.args.to_dict())
+    print("request.form.to_dict(): ", request.form.to_dict())
     print("request.get_json(): ", request.get_json())
-    template = request.args.to_dict()
+    print("request.headers.get('Email'): ", request.headers.get('Email'))
+
+    template = request.form.to_dict()
     if not template:
         template = request.get_json()
+
+    if (not template or template.get('id') == None):
+        return ret_message("you did not provide cat id", "422")
 
     template = {k: v for k, v in template.items() if
                 v}  # remove key-value pairs where value is empty such as 'father': ''
 
-    if not template:
-        return ret_message("no post data", "300")
+
 
     try:
+        breeder = request.headers.get('Email')
+        template['breeder'] = breeder
+        if not BreederResource.check_breeder_id_exist(breeder):
+            return ret_message("422", "you are not allowed to add cat because this email is not signed up")
+
         for k, v in template.items():
             if k == 'id':
                 if not v.isdigit() or int(v) <= 0:
@@ -35,10 +44,6 @@ def ret(request):
                     return ret_message("400", "mother id in wrong format")
                 elif not CatResource.check_cat_id_exist(v):
                     return ret_message("422", "mother id does not exist")
-
-            if k == 'breeder':
-                if not BreederResource.check_breeder_id_exist(v):
-                    return ret_message("422", "breeder id does not exist")
 
         res = CatResource.post_cat(template)
 
