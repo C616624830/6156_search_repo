@@ -46,9 +46,7 @@ def insert_by_template(db_schema, table_name, template, field_list):
 
     clause,args = _insert_clause_args(template)
 
-    print("template: ", template)
     sql = "INSERT INTO " + db_schema + "." + table_name + clause
-
     print("SQL Statement = " + cur.mogrify(sql, None))
 
     res = cur.execute(sql, args=args)
@@ -87,7 +85,7 @@ def delete_by_id(db_schema, table_name, id, field_list):
     cur = conn.cursor()
 
     sql = f"delete from {db_schema}.{table_name} where id = {id}"
-
+    print("SQL Statement = " + cur.mogrify(sql, None))
     res = cur.execute(sql)
     conn.commit()
     res = cur.fetchall()
@@ -105,7 +103,6 @@ def update_by_id_template(db_schema, table_name, id, template, field_list):
     clause,args = _update_clause_args(id, template)
 
     sql = "UPDATE " + db_schema + "." + table_name + " " + clause
-
     print("SQL Statement = " + cur.mogrify(sql, None))
 
     res = cur.execute(sql, args=args)
@@ -130,7 +127,7 @@ def _update_clause_args(id, template):
             terms.append(f"{k}=%s")
             args.append(v)
 
-    clause = "SET " + ", ".join(terms) + f" where id = {id}"
+    clause = "SET " + ", ".join(terms) + f" where id = \'{id}\'"
 
     # print(clause)
     # print(args)
@@ -167,9 +164,9 @@ def select_by_template(db_schema, table_name, template, field_list):
     cur = conn.cursor()
 
     sql = "select * from " + db_schema + "." + table_name + " " + wc + " limit " + limit + " offset " + offset
+    print("SQL Statement = " + cur.mogrify(sql, None))
     res = cur.execute(sql, args=args)
     res = cur.fetchall()
-    print(sql)
     # print(res)
     conn.close()
 
