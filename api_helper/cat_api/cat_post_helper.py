@@ -28,7 +28,7 @@ def ret(request):
         # if CatResource.get_cats({'id': id}, None)[0].get("breeder") != breeder:
         #     return ret_message("424", "you are not the breeder of this cat")
 
-        print("CatResource.get_cats({'id': id}, None): ", CatResource.get_cats({'id': id}, None)[0].get("breeder"))
+        print("CatResource.get_cats({'id': id}, None): ", CatResource.get_cats({'id': id}, None))
         print("CatResource.get_cats({'id': id}, None)[0].get(\"breeder\").get(\"breeder\"): ", CatResource.get_cats({'id': id}, None)[0].get("breeder").get("breeder"))
 
         for k, v in template.items():
