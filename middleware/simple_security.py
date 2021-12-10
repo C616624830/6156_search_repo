@@ -11,7 +11,7 @@ def check_security(request):
             return True, "good"
         else:
             print("request.headers: ", request.headers)
-            token = request.headers['Id-Token']
+            token = request.headers['id_token']
             print("token: ", token)
             print("hellpsdassadasdsaasdddddsadasdasdsa")
 
