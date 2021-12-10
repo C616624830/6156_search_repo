@@ -7,7 +7,7 @@ def ret(request):
     print("request.form.to_dict(): ", request.form.to_dict())
     print("request.get_json(): ", request.get_json())
 
-    template = request.args.to_dict()
+    template = request.form.to_dict()
     if not template:
         template = request.get_json()
 
