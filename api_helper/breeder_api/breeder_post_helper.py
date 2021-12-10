@@ -20,9 +20,9 @@ def ret(request):
     template = {k: v for k, v in template.items() if
                 v and (k == 'id' or k == 'name' or k == 'organization' or k == 'phone' or k == 'address' or k == 'website' or k == 'rating')}
 
-    address = template.get('address')
-    if (SmartyAddressService.do_lookup(address) == False):
-        return ret_message("400", "invalid address")
+    # address = template.get('address')
+    # if (SmartyAddressService.do_lookup(address) == False):
+    #     return ret_message("400", "invalid address")
 
 
     try:
