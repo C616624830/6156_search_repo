@@ -22,14 +22,10 @@ def ret(request):
 
     try:
         breeder = request.headers.get('Email')
-        template['breeder'] = breeder
+        if template.get("breeder") != breeder:
+            return ret_message("424", "you are adding a cat to a breeder account which is not yours")
         if not BreederResource.check_breeder_id_exist(breeder):
             return ret_message("423", "you are not allowed to add cat because this email is not signed up")
-        # if CatResource.get_cats({'id': id}, None)[0].get("breeder") != breeder:
-        #     return ret_message("424", "you are not the breeder of this cat")
-
-        print("CatResource.get_cats({'id': id}, None): ", CatResource.get_cats({'id': id}, None))
-        print("CatResource.get_cats({'id': id}, None)[0].get(\"breeder\").get(\"breeder\"): ", CatResource.get_cats({'id': id}, None)[0].get("breeder").get("breeder"))
 
         for k, v in template.items():
             if k == 'id':
