@@ -25,7 +25,7 @@ def ret(request):
 
 
     try:
-        id = template.get('Email')
+        id = template.get('id')
         if BreederResource.check_breeder_id_exist(id):
             return ret_message("422", "this email has already been signed up")
 
