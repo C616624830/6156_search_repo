@@ -15,7 +15,7 @@ def check_security(request):
             print("token: ", token)
             print("hellpsdassadasdsaasdddddsadasdasdsa")
 
-            idinfo = id_token.verify_oauth2_token(token, requests.Request(), os.environ.get("CLIENT_ID", None))
+            idinfo = id_token.verify_oauth2_token(token, requests.Request(), os.environ.get("CLIENT_ID2", None))
             print("security idinfo: ", idinfo)
             # userid = idinfo['sub']
             print("Token is valid, go using service")
