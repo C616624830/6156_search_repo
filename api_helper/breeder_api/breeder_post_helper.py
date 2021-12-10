@@ -17,7 +17,8 @@ def ret(request):
     template = {k: v for k, v in template.items() if
                 v}  # remove key-value pairs where value is empty such as 'father': ''
 
-
+    template = {k: v for k, v in template.items() if
+                v and (k == 'id' or k == 'name' or k == 'organization' or k == 'phone' or k == 'address' or k == 'website' or k == 'rating')}
 
     # address = template.get('address')
     # if (SmartyAddressService.do_lookup(address) == False):

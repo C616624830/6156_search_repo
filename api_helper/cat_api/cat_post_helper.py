@@ -16,8 +16,7 @@ def ret(request):
         return ret_message("you did not provide cat id", "422")
 
     template = {k: v for k, v in template.items() if
-                v}  # remove key-value pairs where value is empty such as 'father': ''
-
+                 v and (k == 'id' or k == 'race' or k == 'name' or k == 'color' or k == 'dob' or k == 'father' or k == 'mother' or k == 'breeder' or k == 'listing_price')}
 
 
     try:

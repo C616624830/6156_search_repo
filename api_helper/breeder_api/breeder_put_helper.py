@@ -14,8 +14,9 @@ def ret(request):
     if not template:
         return ret_message("no update info", "200")
 
+
     template = {k: v for k, v in template.items() if
-                v}  # remove key-value pairs where value is empty such as 'father': ''
+                v and (k == 'name' or k == 'organization' or k == 'phone' or k == 'address' or k == 'website' or k == 'rating')}
 
     id = request.headers.get('Email')
 
