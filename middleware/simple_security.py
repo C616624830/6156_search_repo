@@ -11,7 +11,8 @@ def check_security(request):
             return True, "good"
         else:
             print("request.headers: ", request.headers)
-            token = request.headers['Id_Token']
+            token = request.headers['Id-Token']
+            print("token:", token)
             idinfo = id_token.verify_oauth2_token(token, requests.Request(), os.environ.get("CLIENT_ID", None))
             print("security idinfo: ", idinfo)
             # userid = idinfo['sub']
