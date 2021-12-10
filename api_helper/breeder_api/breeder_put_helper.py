@@ -19,6 +19,9 @@ def ret(request):
 
     id = request.headers.get('Email')
 
+    if (not template):
+        return ret_message("you did not provide update info", "200")
+
     try:
         if not BreederResource.check_breeder_id_exist(id):
             return ret_message("423", "your email account has not signed up as a breeder, go sign up a breeder with your email")
