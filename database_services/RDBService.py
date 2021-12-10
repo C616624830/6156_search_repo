@@ -162,8 +162,10 @@ def select_by_template(db_schema, table_name, template, field_list):
 
     conn = _get_db_connection()
     cur = conn.cursor()
-
-    sql = "select * from " + db_schema + "." + table_name + " " + wc + " limit " + limit + " offset " + offset
+    if (limit == None or offset == None):
+        sql = "select * from " + db_schema + "." + table_name + " " + wc
+    else:
+        sql = "select * from " + db_schema + "." + table_name + " " + wc + " limit " + limit + " offset " + offset
     print("SQL Statement = " + cur.mogrify(sql, None))
     res = cur.execute(sql, args=args)
     res = cur.fetchall()
