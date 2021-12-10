@@ -3,7 +3,7 @@ from google.auth.transport import requests
 import os
 
 # every request must provide a valid token to access services, if not, return with a status code = 300 to client, client see 300, it will go to google login page and login and then hold the valid token in local storage, then user can access the service using that token again, this method does not need "login_check" because we don't need to record the token in database, and the client can log out just by clear his local storage, so no "log_out" api is needed as well.
-public_paths = ['/getcats', '/getbreeders']
+public_paths = ['/getcats', '/getbreeders', '/postbreeders']
 def check_security(request):
     try:
         path = request.path

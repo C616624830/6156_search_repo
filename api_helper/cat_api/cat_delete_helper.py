@@ -24,7 +24,7 @@ def ret(request):
         elif not CatResource.check_cat_id_exist(id):
             return ret_message("422", "id does not exist")
         elif CatResource.get_cats({'id': id}, None)[0].get("breeder") != breeder:
-            return ret_message("422", "you are not the breeder of this cat")
+            return ret_message("424", "you are not the breeder of this cat")
 
         res = CatResource.delete_cat(id)
 

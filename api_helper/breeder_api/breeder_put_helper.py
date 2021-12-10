@@ -21,7 +21,7 @@ def ret(request):
 
     try:
         if not BreederResource.check_breeder_id_exist(id):
-            return ret_message("422", "your email does not exist, go add breeder")
+            return ret_message("423", "your email account has not signed up as a breeder, go sign up a breeder with your email")
 
         res = BreederResource.put_breeder(id, template)
 

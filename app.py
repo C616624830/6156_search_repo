@@ -50,11 +50,13 @@ def after_request_func(response):
 def get_breeders():
     return breeder_get_helper.ret(request)
 
+@app.route('/postbreeders', methods=['POST'])
+def post_breeders():
+    return breeder_post_helper.ret(request)
+
 @app.route('/breeders', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def breeders():
-    if request.method == 'POST':
-        return breeder_post_helper.ret(request)
-    elif request.method == 'DELETE':
+    if request.method == 'DELETE':
         return breeder_delete_helper.ret(request)
     elif request.method == 'PUT':
         return breeder_put_helper.ret(request)
