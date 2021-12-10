@@ -21,6 +21,9 @@ def ret(request):
     template = {k: v for k, v in template.items() if
                 v and k != 'id'}  # remove key-value pairs where value is empty such as 'father': ''
 
+    if (not template):
+        return ret_message("you did not provide update info", "200")
+
     try:
         if not id.isdigit() or int(id) <= 0:
             return ret_message("400", "id in wrong format")

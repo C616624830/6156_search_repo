@@ -84,13 +84,14 @@ def delete_by_id(db_schema, table_name, id, field_list):
     conn = _get_db_connection()
     cur = conn.cursor()
 
-    print("type(id): ", type(id))
+    # print("type(id): ", type(id))
+    #
+    # if id.isdigit():
+    #     sql = f"delete from {db_schema}.{table_name} where id = {id}"
+    # else:
+    #     sql = f"delete from {db_schema}.{table_name} where id = \'{id}\'"
 
-    if id.isdigit():
-        sql = f"delete from {db_schema}.{table_name} where id = {id}"
-    else:
-        sql = f"delete from {db_schema}.{table_name} where id = \'{id}\'"
-
+    sql = f"delete from {db_schema}.{table_name} where id = \'{id}\'"
     print("SQL Statement = " + cur.mogrify(sql, None))
     res = cur.execute(sql)
     conn.commit()
