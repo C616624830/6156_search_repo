@@ -27,12 +27,13 @@ def ret(request):
 
     try:
         breeder = request.headers.get('Email')
-        
+
         if not BreederResource.check_breeder_id_exist(breeder):
             return ret_message("423", "you are not allowed to add cat because this email is not signed up")
 
         for k, v in template.items():
             if k == 'id':
+                print("id: ", id)
                 if not v.isdigit() or int(v) <= 0:
                     return ret_message("400", "id in wrong format")
                 elif CatResource.check_cat_id_exist(v):
