@@ -27,7 +27,7 @@ def ret(request):
 
     try:
         breeder = request.headers.get('Email')
-
+        template['breeder'] = breeder
         if not BreederResource.check_breeder_id_exist(breeder):
             return ret_message("423", "you are not allowed to add cat because this email is not signed up")
 
