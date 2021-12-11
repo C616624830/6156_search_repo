@@ -21,8 +21,8 @@ def ret(request):
 
     id = request.headers.get('Email')
 
-    if (not template.get('address')):
-        if (SmartyAddressService.do_lookup(address) == False):
+    address = template.get('address')
+    if (address and SmartyAddressService.do_lookup(address) == False):
             return ret_message("422", "invalid address")
 
     if (not template):
