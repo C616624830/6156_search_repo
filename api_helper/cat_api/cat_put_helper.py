@@ -20,7 +20,7 @@ def ret(request):
 
     #filter out non-related data
     template = {k: v for k, v in template.items() if
-                v and k != 'id' and (k == 'race' or k == 'name' or k == 'color' or k == 'dob' or k == 'father' or k == 'mother' or k == 'breeder' or k == 'listing_price')}
+                v and k != 'id' and (k == 'race' or k == 'name' or k == 'color' or k == 'dob' or k == 'listing_price')}
 
     if (not template):
         return ret_message("200", "no update performed")
