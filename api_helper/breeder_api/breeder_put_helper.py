@@ -14,7 +14,7 @@ def ret(request):
     if not template:
         return ret_message("no update info", "200")
 
-
+    #filter out non-related data
     template = {k: v for k, v in template.items() if
                 v and (k == 'name' or k == 'organization' or k == 'phone' or k == 'address' or k == 'website' or k == 'rating')}
 

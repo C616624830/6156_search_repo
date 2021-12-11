@@ -11,9 +11,7 @@ def ret(request):
     if not template:
         template = request.get_json()
 
-    template = {k: v for k, v in template.items() if
-                v and (k == 'id' or k == 'name' or k == 'organization' or k == 'phone' or k == 'address' or k == 'website' or k == 'rating')}
-
+    #make sure all required data is included
     if (not template
         or template.get('id') == None
         or template.get('name') == None
@@ -23,6 +21,10 @@ def ret(request):
         or template.get('website') == None
         or template.get('rating') == None):
         return ret_message("422", "your provided info is not enough to sign up breeder")
+
+    # filter out non-related data
+    template = {k: v for k, v in template.items() if
+                v and (k == 'id' or k == 'name' or k == 'organization' or k == 'phone' or k == 'address' or k == 'website' or k == 'rating')}
 
 
     address = template.get('address')

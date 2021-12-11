@@ -18,6 +18,7 @@ def ret(request):
     id = template.get('id')
     breeder = request.headers.get('Email')
 
+    #filter out non-related data
     template = {k: v for k, v in template.items() if
                 v and k != 'id' and (k == 'race' or k == 'name' or k == 'color' or k == 'dob' or k == 'father' or k == 'mother' or k == 'breeder' or k == 'listing_price')}
 
