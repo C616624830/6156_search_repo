@@ -1,6 +1,7 @@
 from application_services.BreederResource.breeder_service import BreederResource
 import pymysql
 from api_helper.utility import ret_message
+from address_services.smarty_address_service import SmartyAddressService
 
 def ret(request):
     print("request.args.to_dict(): ", request.args.to_dict())
@@ -20,12 +21,16 @@ def ret(request):
 
     id = request.headers.get('Email')
 
+    if (not template.get('address')):
+        if (SmartyAddressService.do_lookup(address) == False):
+            return ret_message("422", "invalid address")
+
     if (not template):
         return ret_message("200", "no update performed")
 
     try:
         if not BreederResource.check_breeder_id_exist(id):
-            return ret_message("425", "your email account has not signed up as a breeder, go sign up a breeder with your email")
+            return ret_message("423", "your email account has not signed up as a breeder, go sign up a breeder with your email")
 
         res = BreederResource.put_breeder(id, template)
 
