@@ -12,12 +12,17 @@ def ret(request):
     if not template:
         template = request.get_json()
 
-    if (not template or template.get('id') == None):
-        return ret_message("you did not provide cat id", "422")
-
     template = {k: v for k, v in template.items() if
                  v and (k == 'id' or k == 'race' or k == 'name' or k == 'color' or k == 'dob' or k == 'father' or k == 'mother' or k == 'breeder' or k == 'listing_price')}
 
+    if (not template
+        or template.get('id') == None
+        or template.get('race') == None
+        or template.get('color') == None
+        or template.get('dob') == None
+        or template.get('breeder') == None
+    ):
+        return ret_message("422", "your provided info is not enough to sign up breeder")
 
     try:
         breeder = request.headers.get('Email')

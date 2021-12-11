@@ -11,14 +11,19 @@ def ret(request):
     if not template:
         template = request.get_json()
 
-    if (not template or template.get('id') == None):
-        return ret_message("your provided info is not enough to sign up breeder", "422")
-
-    template = {k: v for k, v in template.items() if
-                v}  # remove key-value pairs where value is empty such as 'father': ''
-
     template = {k: v for k, v in template.items() if
                 v and (k == 'id' or k == 'name' or k == 'organization' or k == 'phone' or k == 'address' or k == 'website' or k == 'rating')}
+
+    if (not template
+        or template.get('id') == None
+        or template.get('name') == None
+        or template.get('organization') == None
+        or template.get('phone') == None
+        or template.get('address') == None
+        or template.get('website') == None
+        or template.get('rating') == None):
+        return ret_message("422", "your provided info is not enough to sign up breeder")
+
 
     address = template.get('address')
     if (SmartyAddressService.do_lookup(address) == False):
