@@ -19,7 +19,7 @@ def ret(request):
         or not template.get('color')
         or not template.get('dob')
     ):
-        return ret_message("422", "your provided info is not enough to add a cat")
+        return ret_message("421", "your provided info is not enough to add a cat")
 
     # filter out non-related data
     template = {k: v for k, v in template.items() if
@@ -35,21 +35,21 @@ def ret(request):
             if k == 'id':
                 print("id: ", id)
                 if not v.isdigit() or int(v) <= 0:
-                    return ret_message("400", "id in wrong format")
+                    return ret_message("422", "id in wrong format")
                 elif CatResource.check_cat_id_exist(v):
-                    return ret_message("422", "id already exist")
+                    return ret_message("425", "id already exist")
 
             if k == 'father':
                 if not v.isdigit() or int(v) <= 0:
-                    return ret_message("400", "father id in wrong format")
+                    return ret_message("422", "father id in wrong format")
                 elif not CatResource.check_cat_id_exist(v):
-                    return ret_message("422", "father id does not exist")
+                    return ret_message("423", "father id does not exist")
 
             if k == 'mother':
                 if not v.isdigit() or int(v) <= 0:
-                    return ret_message("400", "mother id in wrong format")
+                    return ret_message("422", "mother id in wrong format")
                 elif not CatResource.check_cat_id_exist(v):
-                    return ret_message("422", "mother id does not exist")
+                    return ret_message("423", "mother id does not exist")
 
         res = CatResource.post_cat(template)
 
@@ -57,4 +57,4 @@ def ret(request):
         print(f"error: {e}")
         return ret_message("500", "Internal Server Error")
 
-    return ret_message("201", res, {'location': '/cats'})
+    return ret_message("201", "success", {'location': '/cats'})

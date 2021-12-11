@@ -13,16 +13,16 @@ def ret(request):
         template = request.get_json()
 
     if (not template or not template.get('id')):
-        return ret_message("you did not provide cat id", "422")
+        return ret_message("421"，"you did not provide cat id")
 
     id = template.get('id')
     breeder = request.headers.get('Email')
 
     try:
         if not id.isdigit() or int(id) <= 0:
-            return ret_message("400", "id in wrong format")
+            return ret_message("422", "id in wrong format")
         elif not CatResource.check_cat_id_exist(id):
-            return ret_message("422", "id does not exist")
+            return ret_message("423", "id does not exist")
         elif CatResource.get_cats({'id': id}, None)[0].get("breeder") != breeder:
             return ret_message("424", "you are not the breeder of this cat")
 
@@ -32,4 +32,4 @@ def ret(request):
         print(f"error: {e}")
         return ret_message("500", "Internal Server Error")
 
-    return ret_message("204", res)
+    return ret_message("204", "success")

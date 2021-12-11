@@ -12,7 +12,7 @@ def ret(request):
         template = request.get_json()
 
     if not template:
-        return ret_message("no update info", "200")
+        return ret_message("200", "no update performed")
 
     #filter out non-related data
     template = {k: v for k, v in template.items() if
@@ -21,11 +21,11 @@ def ret(request):
     id = request.headers.get('Email')
 
     if (not template):
-        return ret_message("you did not provide update info", "200")
+        return ret_message("200", "no update performed")
 
     try:
         if not BreederResource.check_breeder_id_exist(id):
-            return ret_message("423", "your email account has not signed up as a breeder, go sign up a breeder with your email")
+            return ret_message("425", "your email account has not signed up as a breeder, go sign up a breeder with your email")
 
         res = BreederResource.put_breeder(id, template)
 
@@ -33,4 +33,4 @@ def ret(request):
         print(f"error: {e}")
         return ret_message("500", "Internal Server Error")
 
-    return ret_message("200", res)
+    return ret_message("200", "success")

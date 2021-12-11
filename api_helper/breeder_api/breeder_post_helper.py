@@ -20,7 +20,7 @@ def ret(request):
         or not template.get('address')
         or not template.get('website')
         or not template.get('rating')):
-        return ret_message("422", "your provided info is not enough to sign up breeder")
+        return ret_message("421", "your provided info is not enough to sign up breeder")
 
     # filter out non-related data
     template = {k: v for k, v in template.items() if
@@ -29,13 +29,13 @@ def ret(request):
 
     address = template.get('address')
     if (SmartyAddressService.do_lookup(address) == False):
-        return ret_message("400", "invalid address")
+        return ret_message("422", "invalid address")
 
 
     try:
         id = template.get('id')
         if BreederResource.check_breeder_id_exist(id):
-            return ret_message("422", "this email has already been signed up")
+            return ret_message("425", "this email has already been signed up")
 
         res = BreederResource.post_breeder(template)
 
@@ -45,4 +45,4 @@ def ret(request):
 
     # rsp = Response(json.dumps(res, default=str), status=201, content_type="application/json")
     # rsp.headers['location'] = '/breeders'
-    return ret_message("201", res, {'location': '/breeders'})
+    return ret_message("201", "success", {'location': '/breeders'})
