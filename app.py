@@ -30,12 +30,12 @@ CORS(app)
 app.secret_key = 'some secret'
 
 
-@app.before_request
-def before_request_func():
-    print("flag0")
-    n, info = simple_security.check_security(request)
-    if n == False:
-        return ret_message("300", info)
+# @app.before_request
+# def before_request_func():
+#     print("flag0")
+#     n, info = simple_security.check_security(request)
+#     if n == False:
+#         return ret_message("300", info)
 
 
 @app.after_request
