@@ -39,4 +39,4 @@ def ret(request):
         print(f"error: {e}")
         return ret_message("500", "Internal Server Error")
 
-    return ret_message("200", res)
+    return ret_message("200", "success")

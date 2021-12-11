@@ -13,7 +13,7 @@ def ret(request):
 
     #make sure all required data is included
     if (not template
-        or not template.get('id')
+        or not request.headers.get('id')
         or not template.get('name')
         or not template.get('organization')
         or not template.get('phone')
@@ -25,16 +25,17 @@ def ret(request):
 
     # filter out non-related data
     template = {k: v for k, v in template.items() if
-                v and (k == 'id' or k == 'name' or k == 'organization' or k == 'phone' or k == 'address' or k == 'website' or k == 'rating')}
+                v and (k == 'name' or k == 'organization' or k == 'phone' or k == 'address' or k == 'website' or k == 'rating')}
+    id = request.headers.get('Email')
+    template['id'] = id
 
-
+    #check if address is valid
     address = template.get('address')
     if (SmartyAddressService.do_lookup(address) == False):
         return ret_message("422", "invalid address")
 
 
     try:
-        id = template.get('id')
         if BreederResource.check_breeder_id_exist(id):
             return ret_message("425", "this email has already been signed up")
 
