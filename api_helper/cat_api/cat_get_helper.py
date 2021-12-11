@@ -10,10 +10,10 @@ def ret(request):
     limit = template.get('limit')
     offset = template.get('offset')
 
-    if (limit == None or int(limit) <= 0):
+    if (not limit or int(limit) <= 0):
         template['limit'] = '10'
         limit = '10'
-    if (offset == None or int(offset) < 0):
+    if (not limit or int(offset) < 0):
         template['offset'] = '0'
         offset = '0'
     res = None

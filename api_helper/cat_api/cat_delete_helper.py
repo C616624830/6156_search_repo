@@ -12,7 +12,7 @@ def ret(request):
     if not template:
         template = request.get_json()
 
-    if (not template or template.get('id') == None):
+    if (not template or not template.get('id')):
         return ret_message("you did not provide cat id", "422")
 
     id = template.get('id')

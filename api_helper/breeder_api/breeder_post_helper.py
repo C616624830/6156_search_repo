@@ -13,13 +13,13 @@ def ret(request):
 
     #make sure all required data is included
     if (not template
-        or template.get('id') == None
-        or template.get('name') == None
-        or template.get('organization') == None
-        or template.get('phone') == None
-        or template.get('address') == None
-        or template.get('website') == None
-        or template.get('rating') == None):
+        or not template.get('id')
+        or not template.get('name')
+        or not template.get('organization')
+        or not template.get('phone')
+        or not template.get('address')
+        or not template.get('website')
+        or not template.get('rating')):
         return ret_message("422", "your provided info is not enough to sign up breeder")
 
     # filter out non-related data
