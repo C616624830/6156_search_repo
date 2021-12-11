@@ -18,18 +18,16 @@ def ret(request):
         or template.get('race') == None
         or template.get('color') == None
         or template.get('dob') == None
-        or template.get('breeder') == None
     ):
         return ret_message("422", "your provided info is not enough to sign up breeder")
 
     # filter out non-related data
     template = {k: v for k, v in template.items() if
-                v and (k == 'id' or k == 'race' or k == 'name' or k == 'color' or k == 'dob' or k == 'father' or k == 'mother' or k == 'breeder' or k == 'listing_price')}
+                v and (k == 'id' or k == 'race' or k == 'name' or k == 'color' or k == 'dob' or k == 'father' or k == 'mother' or k == 'listing_price')}
 
     try:
         breeder = request.headers.get('Email')
-        if template.get("breeder") != breeder:
-            return ret_message("424", "you are adding a cat to a breeder account which is not yours")
+        
         if not BreederResource.check_breeder_id_exist(breeder):
             return ret_message("423", "you are not allowed to add cat because this email is not signed up")
 
