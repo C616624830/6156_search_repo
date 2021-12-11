@@ -13,7 +13,7 @@ def ret(request):
 
     #make sure all required data is included
     if (not template
-        or not request.headers.get('id')
+        or not request.headers.get('Email')
         or not template.get('name')
         or not template.get('organization')
         or not template.get('phone')
