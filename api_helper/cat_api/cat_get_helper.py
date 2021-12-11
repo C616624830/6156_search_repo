@@ -13,7 +13,7 @@ def ret(request):
     if (not limit or int(limit) <= 0):
         template['limit'] = '10'
         limit = '10'
-    if (not limit or int(offset) < 0):
+    if (not offset or int(offset) < 0):
         template['offset'] = '0'
         offset = '0'
     res = None
