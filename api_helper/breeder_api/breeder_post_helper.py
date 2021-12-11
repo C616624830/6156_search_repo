@@ -20,6 +20,7 @@ def ret(request):
         or not template.get('address')
         or not template.get('website')
         or not template.get('rating')):
+        print("template: ", template)
         return ret_message("421", "your provided info is not enough to sign up breeder")
 
     # filter out non-related data
