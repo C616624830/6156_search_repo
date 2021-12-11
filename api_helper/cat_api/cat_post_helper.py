@@ -19,7 +19,7 @@ def ret(request):
         or not template.get('color')
         or not template.get('dob')
     ):
-        return ret_message("422", "your provided info is not enough to sign up breeder")
+        return ret_message("422", "your provided info is not enough to add a cat")
 
     # filter out non-related data
     template = {k: v for k, v in template.items() if
