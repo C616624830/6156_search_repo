@@ -5,11 +5,10 @@ from api_helper.utility import ret_message
 def ret(request):
     print("request.args.to_dict(): ", request.args.to_dict())
     template = request.args.to_dict()
+    template = {k: v for k, v in template.items() if
+                v and (k == 'id' or k == 'race' or k == 'name' or k == 'color' or k == 'dob' or k == 'father' or k == 'mother' or k == 'breeder' or k == 'listing_price' or k == 'limit' or k == 'offset')}
     limit = template.get('limit')
     offset = template.get('offset')
-    template = {k: v for k, v in template.items() if
-                v and (k == 'id' or k == 'race' or k == 'name' or k == 'color' or k == 'dob' or k == 'father' or k == 'mother' or k == 'breeder' or k == 'listing_price')}
-
 
     if (limit == None or int(limit) <= 0):
         template['limit'] = '10'
